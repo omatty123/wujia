@@ -5,146 +5,138 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>四大哲学流派 — Interactive Matrix</title>
   <style>
-    /* Global */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: "Georgia", serif;
-      color: #e8e8e8;
+      color: #f5f5f5;
       padding: 20px;
       min-height: 100vh;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      background: #111;
       background-image: url("https://upload.wikimedia.org/wikipedia/commons/6/6b/Chinese_seal_script_background.png");
       background-size: cover;
       background-attachment: fixed;
-      background-blend-mode: multiply;
+      background-blend-mode: overlay;
     }
 
     h1 {
       text-align: center;
-      font-size: 2.8em;
-      margin-bottom: 10px;
-      background: linear-gradient(45deg, #d4af37, #f4e4c1);
+      font-size: 2.6em;
+      margin-bottom: 5px;
+      background: linear-gradient(45deg, #ffd700, #fceabb);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: 2px;
     }
-
     .subtitle, .instructions {
       text-align: center;
-      color: #bbb;
-      margin-bottom: 20px;
+      color: #ccc;
+      margin-bottom: 15px;
       font-style: italic;
     }
 
     .container {
-      max-width: 1700px;
+      max-width: 1600px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 25px;
+      gap: 20px;
     }
 
-    /* Matrix table */
+    /* Matrix */
     .table-wrapper {
       overflow-x: auto;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.5);
       border-radius: 15px;
       padding: 20px;
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      border-radius: 12px;
-      overflow: hidden;
     }
     th {
-      padding: 20px 15px;
-      font-size: 1.1em;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      padding: 15px;
       text-align: center;
+      font-size: 1.1em;
     }
-    th:first-child {
-      font-weight: bold;
-      color: #d4af37;
-      width: 200px;
-      text-align: left;
-    }
-    .ru-header { color: #d4af37; border-bottom: 3px solid #d4af37; }
-    .dao-header { color: #4a90e2; border-bottom: 3px solid #4a90e2; }
-    .mo-header { color: #50c878; border-bottom: 3px solid #50c878; }
-    .fa-header { color: #e74c3c; border-bottom: 3px solid #e74c3c; }
+    th:first-child { text-align: left; width: 200px; }
+    .ru-header { color: #ffd700; }
+    .dao-header { color: #4aa3ff; }
+    .mo-header { color: #50e68a; }
+    .fa-header { color: #ff5c5c; }
 
     td {
       padding: 15px;
+      border: 2px dashed rgba(255, 255, 255, 0.2);
+      min-height: 120px;
       vertical-align: top;
-      min-height: 150px;
-      border: 2px dashed rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
     }
-    td:first-child {
-      background: rgba(255, 255, 255, 0.08);
-      font-weight: 600;
-      color: #f0d97a;
-    }
+    td:first-child { font-weight: bold; color: #ffd700; border: none; }
 
-    /* Answer bank */
+    /* Items Bank */
     .items-bank {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 15px;
-      padding: 20px;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .category {
+      background: rgba(0,0,0,0.6);
+      border-radius: 10px;
+      padding: 15px;
     }
     .category h3 {
       text-align: center;
-      margin-bottom: 12px;
-      font-size: 1.1em;
-      color: #f4e4c1;
-    }
-    .draggable {
-      padding: 12px;
       margin-bottom: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
+      font-size: 1.05em;
+    }
+    #key-people-bank h3 { color: #ffd700; }
+    #key-concepts-bank h3 { color: #4aa3ff; }
+    #key-aphorisms-bank h3 { color: #50e68a; }
+    #applications-bank h3 { color: #ff5c5c; }
+
+    .draggable {
+      padding: 10px;
+      margin-bottom: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
       cursor: grab;
       font-size: 0.9em;
       transition: background 0.2s;
     }
-    .draggable:hover { background: rgba(255, 255, 255, 0.2); }
+    .draggable:hover { background: rgba(255,255,255,0.25); }
     .dropped-item {
-      padding: 10px;
-      margin-bottom: 8px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 6px;
+      padding: 8px;
+      background: rgba(255,255,255,0.15);
+      margin-bottom: 6px;
+      border-radius: 5px;
     }
 
-    /* Button */
     .check-button {
       display: block;
-      margin: 20px auto;
-      padding: 12px 28px;
-      background: #d4af37;
-      color: #1a1a2e;
+      margin: 15px auto;
+      padding: 10px 24px;
+      background: #ffd700;
+      color: #111;
       border: none;
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 1em;
       transition: background 0.2s;
     }
-    .check-button:hover { background: #f4e4c1; }
+    .check-button:hover { background: #fceabb; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>四大哲学流派</h1>
     <p class="subtitle">The Four Great Philosophical Schools of Ancient China</p>
-    <p class="instructions">Drag and drop items from the bank into the correct matrix cells. Click 🔊 for pronunciation.</p>
+    <p class="instructions">Drag and drop items from the bank into the correct matrix cells.</p>
+
+    <div class="items-bank">
+      <div class="category" id="key-people-bank"><h3>Key People</h3></div>
+      <div class="category" id="key-concepts-bank"><h3>Key Concepts</h3></div>
+      <div class="category" id="key-aphorisms-bank"><h3>Aphorisms</h3></div>
+      <div class="category" id="applications-bank"><h3>Applications</h3></div>
+    </div>
 
     <div class="table-wrapper">
       <table>
@@ -161,74 +153,62 @@
           <tr><td>Key People</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
           <tr><td>Key Concepts</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
           <tr><td>Aphorisms</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
-          <tr><td>Contemporary Applications</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
+          <tr><td>Applications</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
         </tbody>
       </table>
     </div>
 
     <button class="check-button" onclick="checkAnswers()">Check Answers</button>
-
-    <div class="items-bank">
-      <div class="category" id="key-people-bank"><h3>Key People</h3></div>
-      <div class="category" id="key-concepts-bank"><h3>Key Concepts</h3></div>
-      <div class="category" id="key-aphorisms-bank"><h3>Aphorisms</h3></div>
-      <div class="category" id="applications-bank"><h3>Applications</h3></div>
-    </div>
   </div>
 
   <script>
     const keyPeopleItems = [
-      {id: "confucius", pronounce: "孔子", text: "Confucius (孔子)"},
-      {id: "mencius", pronounce: "孟子", text: "Mencius (孟子)"},
-      {id: "laozi", pronounce: "老子", text: "Laozi (老子)"},
-      {id: "zhuangzi", pronounce: "庄子", text: "Zhuangzi (庄子)"},
-      {id: "mozi", pronounce: "墨子", text: "Mozi (墨子)"},
-      {id: "han-feizi", pronounce: "韩非子", text: "Han Feizi (韩非子)"}
+      {id: "confucius", text: "Confucius 孔子"},
+      {id: "mencius", text: "Mencius 孟子"},
+      {id: "laozi", text: "Laozi 老子"},
+      {id: "zhuangzi", text: "Zhuangzi 庄子"},
+      {id: "mozi", text: "Mozi 墨子"},
+      {id: "hanfeizi", text: "Han Feizi 韩非子"}
     ];
-
     const keyConceptsItems = [
-      {id: "ren", pronounce: "仁", text: "Ren 仁 — Benevolence"},
-      {id: "li", pronounce: "礼", text: "Li 礼 — Ritual"},
-      {id: "dao", pronounce: "道", text: "Dao 道 — The Way"},
-      {id: "jianai", pronounce: "兼爱", text: "Jian Ai 兼爱 — Universal Love"},
-      {id: "fa", pronounce: "法", text: "Fa 法 — Law"}
+      {id: "ren", text: "Ren 仁 — Benevolence"},
+      {id: "li", text: "Li 礼 — Ritual"},
+      {id: "dao", text: "Dao 道 — The Way"},
+      {id: "jianai", text: "Jian Ai 兼爱 — Universal Love"},
+      {id: "fa", text: "Fa 法 — Law"}
     ];
-
     const aphorismItems = [
-      {id: "ru-quote", text: "己所不欲 勿施于人 — Do not do to others what you do not want done to yourself"},
-      {id: "dao-quote", text: "无为而治 — Govern by non-action"},
+      {id: "ru-quote", text: "己所不欲 勿施于人 — Do not impose on others what you do not desire"},
+      {id: "dao-quote", text: "无为而治 — Rule through non-action"},
       {id: "mo-quote", text: "兼爱 — Universal Love"},
-      {id: "fa-quote", text: "以法治国 — Rule by law"}
+      {id: "fa-quote", text: "以法治国 — Govern by law"}
     ];
-
     const applicationItems = [
-      {id: "ru-app", text: "Social harmony (Confucianism)"},
-      {id: "dao-app", text: "Environmental sustainability (Daoism)"},
-      {id: "mo-app", text: "Conflict resolution (Mohism)"},
-      {id: "fa-app", text: "Rule of law (Legalism)"}
+      {id: "ru-app", text: "Social harmony"},
+      {id: "dao-app", text: "Environmental sustainability"},
+      {id: "mo-app", text: "Conflict resolution"},
+      {id: "fa-app", text: "Rule of law"}
     ];
 
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
     }
-
-    function renderBank(array, containerId) {
-      const container = document.getElementById(containerId);
-      shuffle(array);
-      array.forEach(item => {
+    function renderBank(arr, containerId) {
+      const c = document.getElementById(containerId);
+      shuffle(arr);
+      arr.forEach(item => {
         const div = document.createElement("div");
         div.className = "draggable";
         div.draggable = true;
         div.dataset.id = item.id;
-        div.innerHTML = (item.pronounce ? `🔊 ${item.text}` : item.text);
-        container.appendChild(div);
-
+        div.textContent = item.text;
         div.addEventListener("dragstart", e => {
           e.dataTransfer.setData("text/plain", item.id);
         });
+        c.appendChild(div);
       });
     }
 
@@ -245,10 +225,10 @@
           const id = e.dataTransfer.getData("text/plain");
           const el = document.querySelector(`[data-id='${id}']`);
           if (el) {
-            const newItem = document.createElement("div");
-            newItem.className = "dropped-item";
-            newItem.textContent = el.textContent;
-            zone.appendChild(newItem);
+            const copy = document.createElement("div");
+            copy.className = "dropped-item";
+            copy.textContent = el.textContent;
+            zone.appendChild(copy);
             el.remove();
           }
         });
@@ -256,7 +236,7 @@
     });
 
     function checkAnswers() {
-      alert("Answer checking not implemented yet.");
+      alert("Answer checking to be implemented.");
     }
   </script>
 </body>
