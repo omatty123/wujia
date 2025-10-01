@@ -178,7 +178,7 @@
 </div>
 
 <script>
-/* ==== Items with Pronounce ==== */
+/* ==== Example Items (you can expand with your full lists) ==== */
 const keyPeopleItems = [
   {id:"confucius",text:"Confucius (孔子)",pronounce:"Kǒngzǐ",school:"儒家"},
   {id:"mencius",text:"Mencius (孟子)",pronounce:"Mèngzǐ",school:"儒家"},
@@ -187,16 +187,38 @@ const keyPeopleItems = [
   {id:"zhuangzi",text:"Zhuangzi (庄子)",pronounce:"Zhuāngzǐ",school:"道家"},
   {id:"liezi",text:"Liezi (列子)",pronounce:"Lièzǐ",school:"道家"},
   {id:"mozi",text:"Mozi (墨子)",pronounce:"Mòzǐ",school:"墨家"},
-  {id:"later-mohists",text:"Later Mohists",pronounce:"Mòzǐ Xuépài",school:"墨家"},
-  {id:"shangyang",text:"Shang Yang (商鞅)",pronounce:"Shāng Yāng",school:"法家"},
-  {id:"shenbuhai",text:"Shen Buhai (申不害)",pronounce:"Shēn Bùhài",school:"法家"},
   {id:"hanfeizi",text:"Han Feizi (韩非子)",pronounce:"Hán Fēizǐ",school:"法家"}
 ];
-// (Concepts, Aphorisms, Applications same structure as before, with pronounce where possible…)
+const keyConceptsItems = [
+  {id:"ren",text:"Ren (仁) – Benevolence",pronounce:"Rén",school:"儒家"},
+  {id:"li",text:"Li (礼) – Ritual",pronounce:"Lǐ",school:"儒家"},
+  {id:"dao",text:"Dao (道) – The Way",pronounce:"Dào",school:"道家"},
+  {id:"jianai",text:"Jian Ai (兼爱) – Universal Love",pronounce:"Jiān Ài",school:"墨家"},
+  {id:"fa",text:"Fa (法) – Law",pronounce:"Fǎ",school:"法家"}
+];
+const aphorismItems = [
+  {id:"ru-1",text:"己所不欲，勿施于人",pronounce:"Jǐ suǒ bù yù, wù shī yú rén",school:"儒家"},
+  {id:"dao-1",text:"无为而治",pronounce:"Wúwéi ér zhì",school:"道家"},
+  {id:"mo-1",text:"兼爱",pronounce:"Jiān ài",school:"墨家"},
+  {id:"fa-1",text:"以法治国",pronounce:"Yǐ fǎ zhìguó",school:"法家"}
+];
+const applicationItems = [
+  {id:"ru-app",text:"Social harmony",school:"儒家"},
+  {id:"dao-app",text:"Environmental sustainability",school:"道家"},
+  {id:"mo-app",text:"Conflict resolution",school:"墨家"},
+  {id:"fa-app",text:"Rule of law",school:"法家"}
+];
 
-/* === Utility shuffle === */
+/* ==== Answer Key ==== */
+const answerKey = {
+  "Key People": {"儒家":["confucius","mencius","xunzi"],"道家":["laozi","zhuangzi","liezi"],"墨家":["mozi"],"法家":["hanfeizi"]},
+  "Key Concepts": {"儒家":["ren","li"],"道家":["dao"],"墨家":["jianai"],"法家":["fa"]},
+  "Aphorisms": {"儒家":["ru-1"],"道家":["dao-1"],"墨家":["mo-1"],"法家":["fa-1"]},
+  "Applications": {"儒家":["ru-app"],"道家":["dao-app"],"墨家":["mo-app"],"法家":["fa-app"]}
+};
+
+/* === Utilities === */
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a}
-/* === Make draggable === */
 function makeDraggable(item,home){
   const div=document.createElement("div");
   div.className="draggable";div.draggable=true;
@@ -205,11 +227,15 @@ function makeDraggable(item,home){
   div.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",item.id)});
   return div;
 }
-function renderBank(items,id){const box=document.getElementById(id);shuffle(items).forEach(it=>box.appendChild(makeDraggable(it,id)))}
+function renderBank(items,id){const box=document.getElementById(id);box.innerHTML="<h3>"+box.querySelector("h3").innerText+"</h3>";shuffle(items).forEach(it=>box.appendChild(makeDraggable(it,id)))}
+
 /* === Init === */
 document.addEventListener("DOMContentLoaded",()=>{
   renderBank([...keyPeopleItems],"key-people-bank");
-  // repeat for keyConceptsItems, aphorismItems, applicationItems
+  renderBank([...keyConceptsItems],"key-concepts-bank");
+  renderBank([...aphorismItems],"key-aphorisms-bank");
+  renderBank([...applicationItems],"applications-bank");
+
   document.querySelectorAll(".dropzone").forEach(zone=>{
     zone.addEventListener("dragover",e=>{e.preventDefault();zone.classList.add("highlight")});
     zone.addEventListener("dragleave",()=>zone.classList.remove("highlight"));
@@ -220,13 +246,37 @@ document.addEventListener("DOMContentLoaded",()=>{
       if(el) zone.appendChild(el);
     });
   });
+
   document.body.addEventListener("click",e=>{
     if(e.target.classList.contains("speaker")){
       const txt=e.target.dataset.pronounce;
-      const ut=new SpeechSynthesisUtterance(txt);ut.lang="zh-CN";speechSynthesis.speak(ut);
+      const ut=new SpeechSynthesisUtterance(txt);
+      ut.lang="zh-CN";
+      speechSynthesis.speak(ut);
     }
   });
 });
+
+/* === Check & Reset === */
+function checkAnswers(){
+  document.querySelectorAll(".dropzone").forEach(zone=>{
+    if(zone.dataset.school){
+      const cat=zone.dataset.category,sch=zone.dataset.school;
+      zone.querySelectorAll(".draggable").forEach(d=>{
+        const ok=answerKey[cat][sch].includes(d.dataset.id);
+        d.classList.remove("correct","incorrect");
+        d.classList.add(ok?"correct":"incorrect");
+      });
+    }
+  });
+}
+function resetBoard(){
+  document.querySelectorAll(".draggable").forEach(el=>{
+    const home=el.dataset.home;
+    document.getElementById(home).appendChild(el);
+    el.classList.remove("correct","incorrect");
+  });
+}
 </script>
 </body>
 </html>
