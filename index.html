@@ -1,109 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Chinese Philosophical Schools Matrix</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>四大哲学流派 — Interactive Matrix</title>
   <style>
-    /* ...[same styling as before]... */
+    /* Global */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Georgia', serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #e8e8e8; padding: 20px; min-height: 100vh; }
-    .container { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
-    .matrix-section { flex: 1; }
-    .items-bank { width: 100%; background: rgba(255, 255, 255, 0.03); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); max-height: 80vh; overflow-y: auto; }
-    h1 { text-align: center; font-size: 2.5em; margin-bottom: 10px; background: linear-gradient(45deg, #d4af37, #f4e4c1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .subtitle, .instructions { text-align: center; color: #a8a8a8; margin-bottom: 20px; font-style: italic; }
-    .table-wrapper { overflow-x: auto; background: rgba(255, 255, 255, 0.03); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-    table { width: 100%; border-collapse: collapse; background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
-    th { background: rgba(255, 255, 255, 0.1); padding: 20px 15px; text-align: left; font-size: 1.1em; border-bottom: 2px solid rgba(255, 255, 255, 0.2); position: sticky; top: 0; }
-    th:first-child { background: rgba(255, 255, 255, 0.15); font-weight: bold; color: #d4af37; width: 180px; }
+    body {
+      font-family: "Georgia", serif;
+      color: #e8e8e8;
+      padding: 20px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      background-image: url("https://upload.wikimedia.org/wikipedia/commons/6/6b/Chinese_seal_script_background.png");
+      background-size: cover;
+      background-attachment: fixed;
+      background-blend-mode: multiply;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.8em;
+      margin-bottom: 10px;
+      background: linear-gradient(45deg, #d4af37, #f4e4c1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+    }
+
+    .subtitle, .instructions {
+      text-align: center;
+      color: #bbb;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .container {
+      max-width: 1700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    /* Matrix table */
+    .table-wrapper {
+      overflow-x: auto;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th {
+      padding: 20px 15px;
+      font-size: 1.1em;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+    }
+    th:first-child {
+      font-weight: bold;
+      color: #d4af37;
+      width: 200px;
+      text-align: left;
+    }
     .ru-header { color: #d4af37; border-bottom: 3px solid #d4af37; }
     .dao-header { color: #4a90e2; border-bottom: 3px solid #4a90e2; }
     .mo-header { color: #50c878; border-bottom: 3px solid #50c878; }
     .fa-header { color: #e74c3c; border-bottom: 3px solid #e74c3c; }
-    td { padding: 20px 15px; vertical-align: top; border-bottom: 1px solid rgba(255, 255, 255, 0.05); line-height: 1.7; min-height: 200px; border: 2px dashed rgba(255, 255, 255, 0.2); }
-    td:first-child { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: #d4af37; border: none; }
-    tr:hover td { background: rgba(255, 255, 255, 0.05); }
-    .school-name { font-size: 1.3em; font-weight: bold; margin-bottom: 5px; }
-    .translation { font-size: 0.9em; color: #a8a8a8; font-style: italic; }
-    .category { margin-bottom: 30px; }
-    .category h3 { color: #d4af37; margin-bottom: 10px; text-align: center; }
-    .draggable { padding: 12px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; cursor: grab; border-left: 3px solid #d4af37; font-size: 0.9em; display: flex; align-items: center; gap: 5px; }
+
+    td {
+      padding: 15px;
+      vertical-align: top;
+      min-height: 150px;
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+    }
+    td:first-child {
+      background: rgba(255, 255, 255, 0.08);
+      font-weight: 600;
+      color: #f0d97a;
+    }
+
+    /* Answer bank */
+    .items-bank {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .category h3 {
+      text-align: center;
+      margin-bottom: 12px;
+      font-size: 1.1em;
+      color: #f4e4c1;
+    }
+    .draggable {
+      padding: 12px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      cursor: grab;
+      font-size: 0.9em;
+      transition: background 0.2s;
+    }
     .draggable:hover { background: rgba(255, 255, 255, 0.2); }
-    .draggable:active { cursor: grabbing; }
-    .speaker { background: none; border: none; color: #d4af37; font-size: 1.2em; cursor: pointer; }
-    .dropped-item { margin-bottom: 10px; padding: 10px; background: rgba(0, 0, 0, 0.3); border-radius: 5px; border-left: 3px solid currentColor; }
-    .check-button { display: block; margin: 20px auto; padding: 10px 20px; background: #d4af37; color: #1a1a2e; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+    .dropped-item {
+      padding: 10px;
+      margin-bottom: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 6px;
+    }
+
+    /* Button */
+    .check-button {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 28px;
+      background: #d4af37;
+      color: #1a1a2e;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.2s;
+    }
     .check-button:hover { background: #f4e4c1; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="matrix-section">
-      <h1>四大哲学流派</h1>
-      <p class="subtitle">The Four Great Philosophical Schools of Ancient China</p>
-      <p class="instructions">Drag and drop the items from the bank below into the correct cells in the matrix. Click 🔊 for pronunciation.</p>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th class="ru-header"><div class="school-name">儒家 Confucianism</div></th>
-              <th class="dao-header"><div class="school-name">道家 Daoism</div></th>
-              <th class="mo-header"><div class="school-name">墨家 Mohism</div></th>
-              <th class="fa-header"><div class="school-name">法家 Legalism</div></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Key People</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
-            <tr><td>Key Concepts</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
-            <tr><td>Key Aphorisms / Thought Experiments</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
-            <tr><td>Contemporary Applications</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <button class="check-button" onclick="checkAnswers()">Check Answers</button>
+    <h1>四大哲学流派</h1>
+    <p class="subtitle">The Four Great Philosophical Schools of Ancient China</p>
+    <p class="instructions">Drag and drop items from the bank into the correct matrix cells. Click 🔊 for pronunciation.</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th class="ru-header">儒家 Confucianism</th>
+            <th class="dao-header">道家 Daoism</th>
+            <th class="mo-header">墨家 Mohism</th>
+            <th class="fa-header">法家 Legalism</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Key People</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
+          <tr><td>Key Concepts</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
+          <tr><td>Aphorisms</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
+          <tr><td>Contemporary Applications</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
+        </tbody>
+      </table>
     </div>
+
+    <button class="check-button" onclick="checkAnswers()">Check Answers</button>
+
     <div class="items-bank">
-      <h2>Items Bank</h2>
       <div class="category" id="key-people-bank"><h3>Key People</h3></div>
       <div class="category" id="key-concepts-bank"><h3>Key Concepts</h3></div>
-      <div class="category" id="key-aphorisms-bank"><h3>Key Aphorisms / Thought Experiments</h3></div>
-      <div class="category" id="contemporary-applications-bank"><h3>Contemporary Applications</h3></div>
+      <div class="category" id="key-aphorisms-bank"><h3>Aphorisms</h3></div>
+      <div class="category" id="applications-bank"><h3>Applications</h3></div>
     </div>
   </div>
+
   <script>
-    // Arrays of draggable items for each category
     const keyPeopleItems = [
       {id: "confucius", pronounce: "孔子", text: "Confucius (孔子)"},
       {id: "mencius", pronounce: "孟子", text: "Mencius (孟子)"},
-      {id: "xunzi", pronounce: "荀子", text: "Xunzi (荀子)"},
       {id: "laozi", pronounce: "老子", text: "Laozi (老子)"},
       {id: "zhuangzi", pronounce: "庄子", text: "Zhuangzi (庄子)"},
       {id: "mozi", pronounce: "墨子", text: "Mozi (墨子)"},
       {id: "han-feizi", pronounce: "韩非子", text: "Han Feizi (韩非子)"}
     ];
+
     const keyConceptsItems = [
-      {id: "ren", pronounce: "仁", text: "Ren (仁) - Benevolence"},
-      {id: "li", pronounce: "礼", text: "Li (礼) - Ritual"},
-      {id: "dao", pronounce: "道", text: "Dao (道) - The Way"},
-      {id: "jian-ai", pronounce: "兼爱", text: "Jian AI (兼爱) - Universal Love"},
-      {id: "fa", pronounce: "法", text: "Fa (法) - Law"}
-    ];
-    const keyAphorismsItems = [
-      {id: "ru-quote1", pronounce: "", text: '"己所不欲，勿施于人" - "Do not do to others what you do not want done to yourself"'},
-      {id: "dao-quote1", pronounce: "", text: '"无为而治" - "Govern by non-action"'},
-      {id: "mo-quote1", pronounce: "", text: '"兼爱" - "Universal Love"'},
-      {id: "fa-quote1", pronounce: "", text: '"以法治国" - "Rule by law"'}
-    ];
-    const contemporaryApplicationsItems = [
-      {id: "ru-app1", pronounce: "", text: "Social harmony (Confucianism)"},
-      {id: "dao-app1", pronounce: "", text: "Environmental sustainability (Daoism)"},
-      {id: "mo-app1", pronounce: "", text: "Conflict resolution (Mohism)"},
-      {id: "fa-app1", pronounce: "", text: "Rule of law (Legalism)"}
+      {id: "ren", pronounce: "仁", text: "Ren 仁 — Benevolence"},
+      {id: "li", pronounce: "礼", text: "Li 礼 — Ritual"},
+      {id: "dao", pronounce: "道", text: "Dao 道 — The Way"},
+      {id: "jianai", pronounce: "兼爱", text: "Jian Ai 兼爱 — Universal Love"},
+      {id: "fa", pronounce: "法", text: "Fa 法 — Law"}
     ];
 
-    // Shuffle function
+    const aphorismItems = [
+      {id: "ru-quote", text: "己所不欲 勿施于人 — Do not do to others what you do not want done to yourself"},
+      {id: "dao-quote", text: "无为而治 — Govern by non-action"},
+      {id: "mo-quote", text: "兼爱 — Universal Love"},
+      {id: "fa-quote", text: "以法治国 — Rule by law"}
+    ];
+
+    const applicationItems = [
+      {id: "ru-app", text: "Social harmony (Confucianism)"},
+      {id: "dao-app", text: "Environmental sustainability (Daoism)"},
+      {id: "mo-app", text: "Conflict resolution (Mohism)"},
+      {id: "fa-app", text: "Rule of law (Legalism)"}
+    ];
+
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -111,64 +215,49 @@
       }
     }
 
-    // Render function for all categories
     function renderBank(array, containerId) {
       const container = document.getElementById(containerId);
-      container.innerHTML = `<h3>${container.querySelector('h3').innerText}</h3>`; // reset
       shuffle(array);
       array.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'draggable';
+        const div = document.createElement("div");
+        div.className = "draggable";
         div.draggable = true;
         div.dataset.id = item.id;
-        div.innerHTML = (item.pronounce ? `<button class="speaker" data-pronounce="${item.pronounce}">🔊</button> ` : "") + item.text;
+        div.innerHTML = (item.pronounce ? `🔊 ${item.text}` : item.text);
         container.appendChild(div);
+
+        div.addEventListener("dragstart", e => {
+          e.dataTransfer.setData("text/plain", item.id);
+        });
       });
     }
 
-    // On page load
-    document.addEventListener('DOMContentLoaded', () => {
-      renderBank(keyPeopleItems, 'key-people-bank');
-      renderBank(keyConceptsItems, 'key-concepts-bank');
-      renderBank(keyAphorismsItems, 'key-aphorisms-bank');
-      renderBank(contemporaryApplicationsItems, 'contemporary-applications-bank');
-      document.querySelectorAll('.draggable').forEach(item => {
-        item.addEventListener('dragstart', e => {
-          draggedElement = e.target;
-          e.dataTransfer.setData('text/plain', e.target.dataset.id);
-        });
-      });
-      document.querySelectorAll('.dropzone').forEach(zone => {
-        zone.addEventListener('dragover', e => e.preventDefault());
-        zone.addEventListener('drop', e => {
+    document.addEventListener("DOMContentLoaded", () => {
+      renderBank(keyPeopleItems, "key-people-bank");
+      renderBank(keyConceptsItems, "key-concepts-bank");
+      renderBank(aphorismItems, "key-aphorisms-bank");
+      renderBank(applicationItems, "applications-bank");
+
+      document.querySelectorAll(".dropzone").forEach(zone => {
+        zone.addEventListener("dragover", e => e.preventDefault());
+        zone.addEventListener("drop", e => {
           e.preventDefault();
-          const id = e.dataTransfer.getData('text/plain');
-          const element = document.querySelector(`[data-id="${id}"]`);
-          if (element) {
-            const newItem = document.createElement('div');
-            newItem.className = 'dropped-item';
-            newItem.textContent = element.textContent;
-            newItem.dataset.id = id;
+          const id = e.dataTransfer.getData("text/plain");
+          const el = document.querySelector(`[data-id='${id}']`);
+          if (el) {
+            const newItem = document.createElement("div");
+            newItem.className = "dropped-item";
+            newItem.textContent = el.textContent;
             zone.appendChild(newItem);
-            element.remove();
+            el.remove();
           }
         });
       });
     });
+
     function checkAnswers() {
-      alert("Checking logic to be added: compare drops against an answer key.");
+      alert("Answer checking not implemented yet.");
     }
-    // Audio
-    document.addEventListener('click', e => {
-      if (e.target.classList.contains('speaker')) {
-        const pronounce = e.target.dataset.pronounce;
-        if ('speechSynthesis' in window) {
-          const utter = new SpeechSynthesisUtterance(pronounce);
-          utter.lang = 'zh-CN'; utter.rate = 0.8;
-          speechSynthesis.speak(utter);
-        }
-      }
-    });
   </script>
 </body>
 </html>
