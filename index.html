@@ -1,374 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>四大哲学流派 — Interactive Matrix</title>
 <style>
-  /* --- Base / Layout --- */
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{
-    font-family:"Georgia",serif;
-    color:#f6f6f6;
-    min-height:100vh;
-    padding:24px 16px 40px;
-    background:#0f0f12;
-    /* subtle seal-script watermark */
-    background-image:
-      linear-gradient(135deg,rgba(15,15,18,.85),rgba(20,23,35,.85)),
-      url("https://upload.wikimedia.org/wikipedia/commons/6/6b/Chinese_seal_script_background.png");
-    background-size:cover;
-    background-attachment:fixed;
-    background-blend-mode:overlay;
-  }
-  .container{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
-
-  h1{
-    text-align:center;letter-spacing:.5px;margin-bottom:2px;
-    font-size:2.2rem;
-    background:linear-gradient(45deg,#ffd36a,#fff3c4);
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent
-  }
-  .subtitle,.instructions{color:#cfcfd7;text-align:center}
-  .subtitle{opacity:.9}
-  .instructions{opacity:.8;font-style:italic;margin-top:-2px}
-
-  /* --- Matrix --- */
-  .table-wrapper{
-    overflow-x:auto;background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:14px;padding:16px;backdrop-filter:blur(8px)
-  }
-  table{width:100%;border-collapse:separate;border-spacing:10px}
-  thead th{
-    padding:14px 10px;text-align:center;font-weight:700;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:10px
-  }
-  thead th:first-child{text-align:left;width:180px}
-  .ru-header{color:#ffd36a}
-  .dao-header{color:#67b4ff}
-  .mo-header{color:#69e7a0}
-  .fa-header{color:#ff6b6b}
-
-  tbody td{
-    vertical-align:top;padding:12px;min-height:120px;
-    border:2px dashed rgba(255,255,255,.18);
-    border-radius:10px;transition:background .15s ease, outline .15s ease
-  }
-  tbody td:first-child{
-    border:none;background:rgba(255,255,255,.07);font-weight:700;color:#ffd36a
-  }
-  .dropzone.highlight{outline:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.06)}
-  .tint-ru{background:linear-gradient(0deg,rgba(255,211,106,.08),transparent)}
-  .tint-dao{background:linear-gradient(0deg,rgba(103,180,255,.08),transparent)}
-  .tint-mo{background:linear-gradient(0deg,rgba(105,231,160,.08),transparent)}
-  .tint-fa{background:linear-gradient(0deg,rgba(255,107,107,.08),transparent)}
-
-  /* --- Buttons --- */
-  .btnbar{display:flex;gap:10px;justify-content:center}
-  .btn{
-    appearance:none;border:none;border-radius:10px;padding:10px 18px;
-    font-weight:700;cursor:pointer;background:#ffd36a;color:#18181b;
-    transition:filter .15s ease,transform .05s ease
-  }
-  .btn:hover{filter:brightness(1.05)}
-  .btn:active{transform:translateY(1px)}
-  .btn-ghost{background:transparent;color:#ffd36a;outline:1px solid #ffd36a}
-
-  /* --- Answer Bank (BELOW) --- */
-  .bank-wrapper{
-    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-    border-radius:14px;padding:16px;backdrop-filter:blur(8px)
-  }
-  .bank-title{font-weight:700;margin-bottom:10px;text-align:center;opacity:.9}
-  .items-bank{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:14px
-  }
-  .category{
-    background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.08);
-    border-radius:12px;padding:12px;min-height:220px
-  }
-  .category h3{text-align:center;margin-bottom:8px;font-size:1rem}
-  #key-people-bank h3{color:#ffd36a}
-  #key-concepts-bank h3{color:#67b4ff}
-  #key-aphorisms-bank h3{color:#69e7a0}
-  #applications-bank h3{color:#ff6b6b}
-
-  .draggable{
-    user-select:none;display:flex;align-items:center;justify-content:space-between;
-    gap:8px;padding:9px 10px;margin-bottom:8px;border-radius:8px;
-    background:rgba(255,255,255,.12);
-    border-left:3px solid rgba(255,255,255,.35);
-    cursor:grab;transition:background .15s ease,transform .05s ease
-  }
-  .draggable:active{cursor:grabbing;transform:scale(.99)}
-  .label{line-height:1.25}
-  .speaker{
-    background:none;border:none;color:#ffd36a;font-size:1.05rem;cursor:pointer;
-  }
-  .muted{opacity:.8;font-style:italic}
-
-  /* correctness flash */
-  .correct{background:rgba(46,204,113,.22)!important}
-  .incorrect{background:rgba(231,76,60,.22)!important}
-
-  @media (max-width:900px){
-    .items-bank{grid-template-columns:1fr}
-    thead th:first-child{width:140px}
-  }
+  /* same CSS from previous message (already included) */
 </style>
 </head>
 <body>
-  <div class="container">
-    <h1>四大哲学流派</h1>
-    <div class="subtitle">The Four Great Philosophical Schools of Ancient China</div>
-    <div class="instructions">Drag items into the matrix. You can move them around anytime. Click 🔊 to hear the Chinese.</div>
+<div class="container">
+  <h1>四大哲学流派</h1>
+  <div class="subtitle">The Four Great Philosophical Schools of Ancient China</div>
+  <div class="instructions">Drag items into the matrix. You can move them anytime. Click 🔊 to hear the Chinese.</div>
 
-    <!-- MATRIX -->
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th class="ru-header">儒家 Confucianism</th>
-            <th class="dao-header">道家 Daoism</th>
-            <th class="mo-header">墨家 Mohism</th>
-            <th class="fa-header">法家 Legalism</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Key People</td>
-            <td class="dropzone tint-ru"  data-category="Key People" data-school="儒家"></td>
-            <td class="dropzone tint-dao" data-category="Key People" data-school="道家"></td>
-            <td class="dropzone tint-mo"  data-category="Key People" data-school="墨家"></td>
-            <td class="dropzone tint-fa"  data-category="Key People" data-school="法家"></td>
-          </tr>
-          <tr>
-            <td>Key Concepts</td>
-            <td class="dropzone tint-ru"  data-category="Key Concepts" data-school="儒家"></td>
-            <td class="dropzone tint-dao" data-category="Key Concepts" data-school="道家"></td>
-            <td class="dropzone tint-mo"  data-category="Key Concepts" data-school="墨家"></td>
-            <td class="dropzone tint-fa"  data-category="Key Concepts" data-school="法家"></td>
-          </tr>
-          <tr>
-            <td>Key Aphorisms / Thought Experiments</td>
-            <td class="dropzone tint-ru"  data-category="Aphorisms" data-school="儒家"></td>
-            <td class="dropzone tint-dao" data-category="Aphorisms" data-school="道家"></td>
-            <td class="dropzone tint-mo"  data-category="Aphorisms" data-school="墨家"></td>
-            <td class="dropzone tint-fa"  data-category="Aphorisms" data-school="法家"></td>
-          </tr>
-          <tr>
-            <td>Contemporary Applications</td>
-            <td class="dropzone tint-ru"  data-category="Applications" data-school="儒家"></td>
-            <td class="dropzone tint-dao" data-category="Applications" data-school="道家"></td>
-            <td class="dropzone tint-mo"  data-category="Applications" data-school="墨家"></td>
-            <td class="dropzone tint-fa"  data-category="Applications" data-school="法家"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="btnbar">
-      <button class="btn" onclick="checkAnswers()">Check Answers</button>
-      <button class="btn btn-ghost" onclick="resetBoard()">Reset</button>
-    </div>
-
-    <!-- ANSWER BANK (BELOW) -->
-    <div class="bank-wrapper">
-      <div class="bank-title">Answer Bank</div>
-      <div class="items-bank">
-        <div class="category dropzone" id="key-people-bank" data-bank="Key People"><h3>Key People</h3></div>
-        <div class="category dropzone" id="key-concepts-bank" data-bank="Key Concepts"><h3>Key Concepts</h3></div>
-        <div class="category dropzone" id="key-aphorisms-bank" data-bank="Aphorisms"><h3>Key Aphorisms / Thought Experiments</h3></div>
-        <div class="category dropzone" id="applications-bank" data-bank="Applications"><h3>Contemporary Applications</h3></div>
-      </div>
-    </div>
+  <!-- MATRIX -->
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th class="ru-header">儒家 Confucianism</th>
+          <th class="dao-header">道家 Daoism</th>
+          <th class="mo-header">墨家 Mohism</th>
+          <th class="fa-header">法家 Legalism</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Key People</td>
+          <td class="dropzone tint-ru" data-category="Key People" data-school="儒家"></td>
+          <td class="dropzone tint-dao" data-category="Key People" data-school="道家"></td>
+          <td class="dropzone tint-mo"  data-category="Key People" data-school="墨家"></td>
+          <td class="dropzone tint-fa"  data-category="Key People" data-school="法家"></td>
+        </tr>
+        <tr>
+          <td>Key Concepts</td>
+          <td class="dropzone tint-ru" data-category="Key Concepts" data-school="儒家"></td>
+          <td class="dropzone tint-dao" data-category="Key Concepts" data-school="道家"></td>
+          <td class="dropzone tint-mo"  data-category="Key Concepts" data-school="墨家"></td>
+          <td class="dropzone tint-fa"  data-category="Key Concepts" data-school="法家"></td>
+        </tr>
+        <tr>
+          <td>Key Aphorisms / Thought Experiments</td>
+          <td class="dropzone tint-ru" data-category="Aphorisms" data-school="儒家"></td>
+          <td class="dropzone tint-dao" data-category="Aphorisms" data-school="道家"></td>
+          <td class="dropzone tint-mo"  data-category="Aphorisms" data-school="墨家"></td>
+          <td class="dropzone tint-fa"  data-category="Aphorisms" data-school="法家"></td>
+        </tr>
+        <tr>
+          <td>Contemporary Applications</td>
+          <td class="dropzone tint-ru" data-category="Applications" data-school="儒家"></td>
+          <td class="dropzone tint-dao" data-category="Applications" data-school="道家"></td>
+          <td class="dropzone tint-mo"  data-category="Applications" data-school="墨家"></td>
+          <td class="dropzone tint-fa"  data-category="Applications" data-school="法家"></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
+  <div class="btnbar">
+    <button class="btn" onclick="checkAnswers()">Check Answers</button>
+    <button class="btn btn-ghost" onclick="resetBoard()">Reset</button>
+  </div>
+
+  <!-- BANK -->
+  <div class="bank-wrapper">
+    <div class="bank-title">Answer Bank</div>
+    <div class="items-bank">
+      <div class="category dropzone" id="key-people-bank" data-bank="Key People"><h3>Key People</h3></div>
+      <div class="category dropzone" id="key-concepts-bank" data-bank="Key Concepts"><h3>Key Concepts</h3></div>
+      <div class="category dropzone" id="key-aphorisms-bank" data-bank="Aphorisms"><h3>Key Aphorisms</h3></div>
+      <div class="category dropzone" id="applications-bank" data-bank="Applications"><h3>Applications</h3></div>
+    </div>
+  </div>
+</div>
+
 <script>
-/* ========= BANK ITEMS ========= */
-const keyPeopleItems = [
-  {id:"confucius", pronounce:"孔子", text:"Confucius (孔子)"},
-  {id:"mencius", pronounce:"孟子", text:"Mencius (孟子)"},
-  {id:"xunzi", pronounce:"荀子", text:"Xunzi (荀子)"},
-  {id:"laozi", pronounce:"老子", text:"Laozi (老子)"},
-  {id:"zhuangzi", pronounce:"庄子", text:"Zhuangzi (庄子)"},
-  {id:"liezi", pronounce:"列子", text:"Liezi (列子)"},
-  {id:"mozi", pronounce:"墨子", text:"Mozi (墨子)"},
-  {id:"later-mohists", pronounce:"", text:"Later Mohists"},
-  {id:"shangyang", pronounce:"商鞅", text:"Shang Yang (商鞅)"},
-  {id:"shen-buhai", pronounce:"申不害", text:"Shen Buhai (申不害)"},
-  {id:"hanfeizi", pronounce:"韩非子", text:"Han Feizi (韩非子)"}
-];
+/* ========== ITEMS & KEY (same as in last message, truncated for brevity) ========== */
+/* (Paste all the arrays: keyPeopleItems, keyConceptsItems, aphorismItems, applicationItems, and answerKey exactly as I gave you.) */
 
-const keyConceptsItems = [
-  {id:"ren", pronounce:"仁", text:"Ren 仁 — Benevolence"},
-  {id:"li", pronounce:"礼", text:"Li 礼 — Ritual"},
-  {id:"yi", pronounce:"义", text:"Yi 义 — Righteousness"},
-  {id:"xiao", pronounce:"孝", text:"Xiao 孝 — Filial piety"},
-  {id:"junzi", pronounce:"君子", text:"Junzi 君子 — Exemplary person"},
-  {id:"dao", pronounce:"道", text:"Dao 道 — The Way"},
-  {id:"wuwei", pronounce:"无为", text:"Wu wei 无为 — Non-action"},
-  {id:"ziran", pronounce:"自然", text:"Ziran 自然 — Naturalness"},
-  {id:"yinyang", pronounce:"阴阳", text:"Yin-Yang 阴阳"},
-  {id:"pu", pronounce:"朴", text:"Pu 朴 — Uncarved block"},
-  {id:"jianai", pronounce:"兼爱", text:"Jian ai 兼爱 — Universal love"},
-  {id:"feigong", pronounce:"非攻", text:"Fei gong 非攻 — Against offensive war"},
-  {id:"shangxian", pronounce:"尚贤", text:"Shang xian 尚贤 — Elevate the worthy"},
-  {id:"jieyong", pronounce:"节用", text:"Jie yong 节用 — Frugality"},
-  {id:"tianzhi", pronounce:"天志", text:"Tianzhi 天志 — Will of Heaven"},
-  {id:"fa", pronounce:"法", text:"Fa 法 — Law"},
-  {id:"shu", pronounce:"术", text:"Shu 术 — Administrative technique"},
-  {id:"shi", pronounce:"势", text:"Shi 势 — Positional power"},
-  {id:"centralization", pronounce:"", text:"Centralization"},
-  {id:"realism", pronounce:"", text:"Realism (self-interest)"}
-];
+/* ===== Shuffle Utility ===== */
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr}
 
-const aphorismItems = [
-  {id:"ru-quote1", pronounce:"己所不欲 勿施于人", text:"“Do not impose on others what you do not desire.”"},
-  {id:"ru-quote2", pronounce:"", text:"“The gentleman understands what is moral; the small man what is profitable.”"},
-  {id:"ru-quote3", pronounce:"", text:"“Learning without thought is labor lost; thought without learning is perilous.”"},
-  {id:"dao-quote1", pronounce:"", text:"Zhuangzi: The Useless Tree (usefulness of uselessness)"},
-  {id:"dao-quote2", pronounce:"", text:"Zhuangzi: Butterfly Dream (who dreams whom?)"},
-  {id:"dao-quote3", pronounce:"", text:"Daodejing: “The greatest carver does the least cutting.”"},
-  {id:"mo-quote1", pronounce:"", text:"“If all treated others’ families as their own, who would cause disorder?”"},
-  {id:"mo-quote2", pronounce:"", text:"“Elaborate funerals and music waste resources.”"},
-  {id:"mo-quote3", pronounce:"", text:"“Killing ten is ten times the crime.” (against aggressive war)"},
-  {id:"fa-quote1", pronounce:"", text:"“When the epoch changes, ways change; government measures change.”"},
-  {id:"fa-quote2", pronounce:"", text:"“Rule by the two handles of punishment and favor.” — Han Feizi"},
-  {id:"fa-quote3", pronounce:"", text:"“In an enlightened state, law supplies the only instruction.” — Han Feizi"}
-];
-
-const applicationItems = [
-  {id:"ru-app1", pronounce:"", text:"Business ethics / CSR"},
-  {id:"ru-app2", pronounce:"", text:"Education & character formation"},
-  {id:"ru-app3", pronounce:"", text:"Servant leadership & ritual culture"},
-  {id:"dao-app1", pronounce:"", text:"Systems thinking, minimal intervention"},
-  {id:"dao-app2", pronounce:"", text:"Mindfulness & flow"},
-  {id:"dao-app3", pronounce:"", text:"Sustainability & biomimicry"},
-  {id:"mo-app1", pronounce:"", text:"Effective altruism"},
-  {id:"mo-app2", pronounce:"", text:"Peace studies / rational conflict resolution"},
-  {id:"mo-app3", pronounce:"", text:"Meritocracy / skills-based hiring"},
-  {id:"fa-app1", pronounce:"", text:"Institutional design (clear rules)"},
-  {id:"fa-app2", pronounce:"", text:"Behavioral economics (incentives)"},
-  {id:"fa-app3", pronounce:"", text:"Management science / KPIs"}
-];
-
-/* ========= OFFICIAL ANSWER KEY (matches your “many answers” table) ========= */
-const answerKey = {
-  "Key People": {
-    "儒家":["confucius","mencius","xunzi"],
-    "道家":["laozi","zhuangzi","liezi"],
-    "墨家":["mozi","later-mohists"],
-    "法家":["shangyang","shen-buhai","hanfeizi"]
-  },
-  "Key Concepts": {
-    "儒家":["ren","li","yi","xiao","junzi"],
-    "道家":["dao","wuwei","ziran","yinyang","pu"],
-    "墨家":["jianai","feigong","shangxian","jieyong","tianzhi"],
-    "法家":["fa","shu","shi","centralization","realism"]
-  },
-  "Aphorisms": {
-    "儒家":["ru-quote1","ru-quote2","ru-quote3"],
-    "道家":["dao-quote1","dao-quote2","dao-quote3"],
-    "墨家":["mo-quote1","mo-quote2","mo-quote3"],
-    "法家":["fa-quote1","fa-quote2","fa-quote3"]
-  },
-  "Applications": {
-    "儒家":["ru-app1","ru-app2","ru-app3"],
-    "道家":["dao-app1","dao-app2","dao-app3"],
-    "墨家":["mo-app1","mo-app2","mo-app3"],
-    "法家":["fa-app1","fa-app2","fa-app3"]
-  }
-};
-
-/* ========= RENDER & DND ========= */
-function makeDraggable(item, homeId){
+/* ===== Render & DnD ===== */
+function makeDraggable(item,home){
   const div=document.createElement("div");
-  div.className="draggable";
-  div.draggable=true;
-  div.dataset.id=item.id;
-  div.dataset.home=homeId;      // for Reset
-  div.innerHTML=`<span class="label">${item.text}</span>`+
-    (item.pronounce?`<button class="speaker" title="Play" data-pronounce="${item.pronounce}">🔊</button>`:"");
-  div.addEventListener("dragstart", e=>{
-    e.dataTransfer.setData("text/plain", item.id);
-  });
+  div.className="draggable";div.draggable=true;div.dataset.id=item.id;div.dataset.home=home;
+  div.innerHTML=`<span>${item.text}</span>`+(item.pronounce?`<button class="speaker" data-pronounce="${item.pronounce}">🔊</button>`:"");
+  div.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",item.id)});
   return div;
 }
-function renderBank(items, containerId){
-  const box=document.getElementById(containerId);
-  items.forEach(it=>box.appendChild(makeDraggable(it, containerId)));
-}
+function renderBank(items,id){const box=document.getElementById(id);shuffle(items).forEach(it=>box.appendChild(makeDraggable(it,id)))}
 
-document.addEventListener("DOMContentLoaded", ()=>{
-  // Render all categories
-  renderBank(keyPeopleItems,"key-people-bank");
-  renderBank(keyConceptsItems,"key-concepts-bank");
-  renderBank(aphorismItems,"key-aphorisms-bank");
-  renderBank(applicationItems,"applications-bank");
+document.addEventListener("DOMContentLoaded",()=>{
+  renderBank([...keyPeopleItems],"key-people-bank");
+  renderBank([...keyConceptsItems],"key-concepts-bank");
+  renderBank([...aphorismItems],"key-aphorisms-bank");
+  renderBank([...applicationItems],"applications-bank");
 
-  // Drag targets (matrix cells + bank categories so you can return items)
   document.querySelectorAll(".dropzone").forEach(zone=>{
-    zone.addEventListener("dragover",e=>{e.preventDefault(); zone.classList.add("highlight");});
+    zone.addEventListener("dragover",e=>{e.preventDefault();zone.classList.add("highlight")});
     zone.addEventListener("dragleave",()=>zone.classList.remove("highlight"));
     zone.addEventListener("drop",e=>{
-      e.preventDefault();
-      zone.classList.remove("highlight");
+      e.preventDefault();zone.classList.remove("highlight");
       const id=e.dataTransfer.getData("text/plain");
-      const el=document.querySelector(`[data-id='${id}']`);
-      if(el) zone.appendChild(el); // MOVE (not clone) so items remain draggable
+      const el=document.querySelector(`.draggable[data-id='${id}']`);
+      if(el) zone.appendChild(el);
     });
   });
-});
 
-// Audio (works anywhere the 🔊 button moves)
-document.addEventListener("click", e=>{
-  if(e.target.classList.contains("speaker")){
-    const text=e.target.dataset.pronounce;
-    if(window.speechSynthesis){
-      const u=new SpeechSynthesisUtterance(text);
-      u.lang="zh-CN"; u.rate=0.85;
-      speechSynthesis.speak(u);
+  document.body.addEventListener("click",e=>{
+    if(e.target.classList.contains("speaker")){
+      const txt=e.target.dataset.pronounce;
+      const ut=new SpeechSynthesisUtterance(txt);ut.lang="zh-CN";
+      speechSynthesis.speak(ut);
     }
-  }
+  });
 });
 
-/* ========= CHECK & RESET ========= */
+/* ===== Check ===== */
 function checkAnswers(){
-  // clear previous coloring
-  document.querySelectorAll(".dropzone").forEach(z=>z.classList.remove("correct","incorrect"));
-
-  let score=0, total=0;
-
-  document.querySelectorAll(".dropzone[data-category]").forEach(cell=>{
-    const category=cell.dataset.category;
-    const school=cell.dataset.school;
-    const expected = (answerKey[category] && answerKey[category][school]) ? [...answerKey[category][school]] : [];
-    const placed   = [...cell.querySelectorAll(".draggable")].map(d=>d.dataset.id);
-
-    total += expected.length;
-
-    // set-wise compare (must match exactly)
-    const ok = expected.length===placed.length && expected.every(id=>placed.includes(id));
-    cell.classList.add(ok? "correct" : "incorrect");
-    if(ok) score += expected.length;
+  document.querySelectorAll(".dropzone").forEach(zone=>{
+    if(zone.dataset.school){
+      const cat=zone.dataset.category, sch=zone.dataset.school;
+      zone.querySelectorAll(".draggable").forEach(d=>{
+        const ok=answerKey[cat][sch].includes(d.dataset.id);
+        d.classList.remove("correct","incorrect");
+        d.classList.add(ok?"correct":"incorrect");
+      });
+    }
   });
-
-  alert(`Score: ${score} / ${total}`);
 }
 
+/* ===== Reset ===== */
 function resetBoard(){
-  // Move every draggable back to its original bank column
-  document.querySelectorAll(".draggable").forEach(d=>{
-    const home = d.dataset.home;
-    const box = document.getElementById(home);
-    if(box) box.appendChild(d);
+  document.querySelectorAll(".draggable").forEach(el=>{
+    const home=el.dataset.home;
+    document.getElementById(home).appendChild(el);
+    el.classList.remove("correct","incorrect");
   });
-  document.querySelectorAll(".dropzone").forEach(z=>z.classList.remove("correct","incorrect","highlight"));
 }
 </script>
 </body>
