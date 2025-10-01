@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — 四大哲学流派 Matrix</title>
+<style>
+  *{box-sizing:border-box}
+  body{font-family:Georgia,serif;background:#111;color:#eee;padding:20px;line-height:1.5}
+  h1{color:#ffd36a;margin-bottom:6px}
+  p.hint{color:#bbb;margin-top:0}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{border:1px solid #444;background:#1a1a1a;border-radius:10px;padding:14px}
+  label{display:block;margin:8px 0 4px}
+  input,select,textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #555;background:#222;color:#eee}
+  button{padding:9px 12px;border:none;border-radius:8px;cursor:pointer;font-weight:700}
+  .primary{background:#ffd36a;color:#111}
+  .ghost{background:transparent;color:#ffd36a;border:1px solid #ffd36a}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:#222;border:1px solid #444;border-radius:999px;padding:6px 10px;margin:6px 6px 0 0}
+  .pill small{opacity:.8}
+  .pill .del{color:#ff6b6b;cursor:pointer}
+  .muted{color:#aaa;font-style:italic}
+  .toolbar{display:flex;gap:12px;align-items:center;margin:10px 0 4px}
+  .link{color:#ffd36a;text-decoration:none;border-bottom:1px dashed #ffd36a}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<h1>Admin Panel</h1>
+<p class="hint">Add/remove items from the Answer Bank. Saved in your browser (<code>localStorage</code>), used by <a class="link" href="index.html">index.html</a> immediately.</p>
+
+<div class="grid">
+  <!-- Add form -->
+  <div class="card">
+    <h2>Add Item</h2>
+    <label>Category</label>
+    <select id="cat">
+      <option>Key People</option>
+      <option>Key Concepts</option>
+      <option>Aphorisms</option>
+      <option>Applications</option>
+    </select>
+
+    <label>Text</label>
+    <input id="text" placeholder="e.g., Confucius (孔子) or Do not impose on others..." />
+
+    <label>Pronunciation (optional — what 🔊 should read in Chinese)</label>
+    <input id="pronounce" placeholder="e.g., 孔子 / 无为 / 兼爱" />
+
+    <label>Correct School (for answer checking)</label>
+    <select id="school">
+      <option value="">— choose —</option>
+      <option value="儒家">儒家 Confucianism</option>
+      <option value="道家">道家 Daoism</option>
+      <option value="墨家">墨家 Mohism</option>
+      <option value="法家">法家 Legalism</option>
+    </select>
+
+    <div class="toolbar">
+      <button class="primary" onclick="addItem()">Add</button>
+      <button class="ghost" onclick="wipeAllCustom()">Delete ALL Custom Items</button>
+    </div>
+    <p class="muted">Note: Defaults are built into the site and are never erased. This panel only manages your <em>custom</em> additions.</p>
+  </div>
+
+  <!-- Current items -->
+  <div class="card">
+    <h2>Current Custom Items</h2>
+    <label>View Category</label>
+    <select id="viewCat" onchange="renderList()">
+      <option>Key People</option>
+      <option>Key Concepts</option>
+      <option>Aphorisms</option>
+      <option>Applications</option>
+    </select>
+
+    <div id="list" class="row"></div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = "matrixCustomItemsV1";
+
+function loadCustom(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw) return {"Key People":[],"Key Concepts":[],"Aphorisms":[],"Applications":[]};
+  try{
+    const obj = JSON.parse(raw);
+    for(const k of ["Key People","Key Concepts","Aphorisms","Applications"]){
+      if(!Array.isArray(obj[k])) obj[k]=[];
+    }
+    return obj;
+  }catch(e){
+    return {"Key People":[],"Key Concepts":[],"Aphorisms":[],"Applications":[]};
+  }
+}
+
+function saveCustom(obj){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+}
+
+function addItem(){
+  const cat = document.getElementById("cat").value;
+  const text = document.getElementById("text").value.trim();
+  const pronounce = document.getElementById("pronounce").value.trim();
+  const school = document.getElementById("school").value; // "" or one of four schools
+  if(!text){ alert("Please enter text."); return; }
+  if(!school){ alert("Choose a correct school so checking works."); return; }
+
+  const bank = loadCustom();
+  const id = "c_"+Date.now()+"_"+Math.random().toString(36).slice(2,7);
+  bank[cat].push({id, text, pronounce, correctSchool: school});
+  saveCustom(bank);
+
+  document.getElementById("text").value="";
+  document.getElementById("pronounce").value="";
+  document.getElementById("school").value="";
+
+  renderList();
+  alert("Added! Open or refresh index.html to use it.");
+}
+
+function deleteItem(cat, id){
+  const bank = loadCustom();
+  const idx = bank[cat].findIndex(x=>x.id===id);
+  if(idx>=0){ bank[cat].splice(idx,1); saveCustom(bank); renderList(); }
+}
+
+function wipeAllCustom(){
+  if(!confirm("Delete ALL custom items? This cannot be undone.")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  renderList();
+}
+
+function renderList(){
+  const cat = document.getElementById("viewCat").value;
+  const bank = loadCustom();
+  const wrap = document.getElementById("list");
+  wrap.innerHTML = "";
+  if(!bank[cat].length){
+    const p = document.createElement("p");
+    p.className="muted";
+    p.textContent = "No custom items in this category yet.";
+    wrap.appendChild(p);
+    return;
+  }
+  bank[cat].forEach(item=>{
+    const pill = document.createElement("div");
+    pill.className="pill";
+    const label = document.createElement("span");
+    label.textContent = item.text;
+    const meta = document.createElement("small");
+    meta.textContent = item.correctSchool ? `— ${item.correctSchool}` : "— (no school)";
+    const del = document.createElement("span");
+    del.className="del"; del.textContent="✖";
+    del.title="Delete";
+    del.onclick=()=>deleteItem(cat, item.id);
+    pill.appendChild(label); pill.appendChild(meta); pill.appendChild(del);
+    wrap.appendChild(pill);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", renderList);
+</script>
+</body>
+</html>
