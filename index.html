@@ -7,113 +7,85 @@
 <style>
   * {margin:0;padding:0;box-sizing:border-box}
   body {
-    font-family: 'Georgia', serif;
-    background: linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);
-    color:#e8e8e8;
-    padding:40px 20px;
-    min-height:100vh;
+    font-family: "Georgia", serif;
+    color:#e8e8e8; background: #0f0f12;
+    background-image:
+      linear-gradient(135deg,rgba(15,15,18,.88),rgba(20,23,35,.88)),
+      url("https://upload.wikimedia.org/wikipedia/commons/6/6b/Chinese_seal_script_background.png");
+    background-size:cover; background-attachment:fixed; background-blend-mode:overlay;
+    padding:28px 18px 40px; min-height:100vh;
   }
-  .container {max-width:1600px;margin:0 auto}
+  .container {max-width:1600px; margin:0 auto}
   h1 {
-    text-align:center;
-    font-size:2.5em;
-    margin-bottom:10px;
-    background:linear-gradient(45deg,#d4af37,#f4e4c1);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+    text-align:center; font-size:2.5rem; margin-bottom:6px;
+    background: linear-gradient(45deg,#d4af37,#f4e4c1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
-  .subtitle{text-align:center;color:#a8a8a8;margin-bottom:20px;font-style:italic}
-  .instructions{text-align:center;color:#bbb;margin-bottom:20px}
+  .subtitle{ text-align:center; color:#bdbdc7; margin-bottom:4px }
+  .instructions{ text-align:center; color:#b9b9c4; font-style:italic; margin-bottom:16px }
+
+  /* Matrix */
   .table-wrapper {
-    overflow-x:auto;
-    background:rgba(255,255,255,0.03);
-    border-radius:15px;
-    padding:20px;
-    backdrop-filter:blur(10px);
-    border:1px solid rgba(255,255,255,0.1);
+    overflow-x:auto; background: rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:16px; backdrop-filter: blur(8px);
   }
-  table{width:100%;border-collapse:collapse;background:rgba(0,0,0,0.2);border-radius:10px;overflow:hidden}
-  th {
-    background:rgba(255,255,255,0.1);
-    padding:20px 15px;
-    text-align:left;
-    font-size:1.1em;
-    border-bottom:2px solid rgba(255,255,255,0.2);
-    position:sticky;top:0;z-index:10;
+  table{ width:100%; border-collapse:separate; border-spacing:10px }
+  thead th{
+    padding:14px 10px; text-align:center; font-weight:700;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); border-radius:10px
   }
-  th:first-child {
-    background:rgba(255,255,255,0.15);
-    font-weight:bold;
-    color:#d4af37;
-    width:180px;
+  thead th:first-child{ text-align:left; width:200px }
+  .ru-header{color:#ffd36a} .dao-header{color:#67b4ff} .mo-header{color:#69e7a0} .fa-header{color:#ff6b6b}
+  tbody td{
+    vertical-align:top; padding:12px; min-height:120px;
+    border:2px dashed rgba(255,255,255,.18); border-radius:10px; transition:background .15s ease, outline .15s ease;
   }
-  .ru-header{color:#d4af37;border-bottom:3px solid #d4af37}
-  .dao-header{color:#4a90e2;border-bottom:3px solid #4a90e2}
-  .mo-header{color:#50c878;border-bottom:3px solid #50c878}
-  .fa-header{color:#e74c3c;border-bottom:3px solid #e74c3c}
-  td {
-    padding:20px 15px;
-    vertical-align:top;
-    border-bottom:1px solid rgba(255,255,255,0.05);
-    min-height:80px;
+  tbody td:first-child{ border:none; background:rgba(255,255,255,.07); font-weight:700; color:#ffd36a }
+  .dropzone.highlight{ outline:2px solid rgba(255,255,255,.35); background:rgba(255,255,255,.06) }
+
+  /* Item pills */
+  .draggable{
+    user-select:none; display:flex; align-items:center; justify-content:space-between; gap:8px;
+    padding:9px 10px; margin:8px 0; border-radius:8px;
+    background:rgba(255,255,255,.12); border-left:3px solid rgba(255,255,255,.35);
+    cursor:grab; transition:background .15s ease, transform .05s ease;
   }
-  td:first-child {
-    background:rgba(255,255,255,0.05);
-    font-weight:600;
-    color:#d4af37;
-    border-right:1px solid rgba(255,255,255,0.1);
+  .draggable:active{ cursor:grabbing; transform:scale(.99) }
+  .draggable.correct{ border:2px solid #2ecc71 }
+  .draggable.incorrect{ border:2px solid #e74c3c }
+  .speaker{ background:none; border:none; color:#ffd36a; font-size:1.05rem; cursor:pointer }
+
+  /* Buttons / score */
+  .btnbar{ display:flex; gap:10px; justify-content:center; align-items:center; margin:14px 0 6px }
+  .btn{
+    appearance:none; border:none; border-radius:10px; padding:10px 18px; font-weight:700; cursor:pointer;
+    background:#ffd36a; color:#18181b; transition:filter .15s ease, transform .05s ease
   }
-  .dropzone {
-    min-height:120px;
-    padding:5px;
-    border-radius:8px;
-    border:1px dashed rgba(255,255,255,0.2);
+  .btn:hover{ filter:brightness(1.06) } .btn:active{ transform:translateY(1px) }
+  .btn-ghost{ background:transparent; color:#ffd36a; outline:1px solid #ffd36a }
+  #score{ text-align:center; color:#dcdce6; margin-bottom:10px; min-height:1em }
+
+  /* Bank (below) */
+  .bank-wrapper{
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+    border-radius:14px; padding:16px; backdrop-filter: blur(8px); margin-top:18px;
   }
-  .highlight{border:2px dashed #f4e4c1 !important}
-  .draggable {
-    background:rgba(255,255,255,0.08);
-    padding:6px 10px;
-    margin:5px 0;
-    border-radius:5px;
-    cursor:grab;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+  .bank-title{ text-align:center; font-weight:700; margin-bottom:10px; color:#f4e4c1 }
+  .items-bank{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px }
+  .category{
+    background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.08);
+    border-radius:12px; padding:12px; min-height:220px
   }
-  .draggable.correct{border:2px solid #4caf50}
-  .draggable.incorrect{border:2px solid #e74c3c}
-  .speaker {
-    background:none;border:none;cursor:pointer;
-    font-size:1em;margin-left:8px;color:#f4e4c1;
-  }
-  .btnbar{text-align:center;margin:20px}
-  .btn {
-    background:#d4af37;color:#000;
-    border:none;padding:10px 20px;
-    border-radius:8px;cursor:pointer;
-    margin:5px;
-  }
-  .btn:hover{background:#f4e4c1}
-  .btn-ghost{background:transparent;color:#d4af37;border:1px solid #d4af37}
-  .bank-wrapper {
-    margin-top:40px;
-    background:rgba(255,255,255,0.03);
-    border-radius:15px;
-    padding:20px;
-    border:1px solid rgba(255,255,255,0.1);
-  }
-  .bank-title{text-align:center;font-size:1.4em;margin-bottom:10px;color:#f4e4c1}
-  .items-bank{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-  .category h3{text-align:center;margin-bottom:10px;color:#d4af37}
-  @media(max-width:900px){.items-bank{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:600px){.items-bank{grid-template-columns:1fr}}
+  .category h3{ text-align:center; margin-bottom:8px; font-size:1rem; color:#ffd36a }
+  @media (max-width:900px){ .items-bank{ grid-template-columns:repeat(2,1fr) } }
+  @media (max-width:600px){ .items-bank{ grid-template-columns:1fr } }
 </style>
 </head>
 <body>
 <div class="container">
   <h1>四大哲学流派</h1>
   <div class="subtitle">The Four Great Philosophical Schools of Ancient China</div>
-  <div class="instructions">Drag items into the matrix. You can move them anytime. Click 🔊 to hear Chinese terms.</div>
+  <div class="instructions">Drag items into the matrix. You can always move them back. Click 🔊 to hear Chinese.</div>
 
   <!-- MATRIX -->
   <div class="table-wrapper">
@@ -143,7 +115,7 @@
           <td class="dropzone" data-category="Key Concepts" data-school="法家"></td>
         </tr>
         <tr>
-          <td>Key Aphorisms</td>
+          <td>Key Aphorisms / Thought Experiments</td>
           <td class="dropzone" data-category="Aphorisms" data-school="儒家"></td>
           <td class="dropzone" data-category="Aphorisms" data-school="道家"></td>
           <td class="dropzone" data-category="Aphorisms" data-school="墨家"></td>
@@ -164,118 +136,220 @@
     <button class="btn" onclick="checkAnswers()">Check Answers</button>
     <button class="btn btn-ghost" onclick="resetBoard()">Reset</button>
   </div>
+  <div id="score"></div>
 
-  <!-- BANK -->
+  <!-- ANSWER BANK (BELOW) -->
   <div class="bank-wrapper">
     <div class="bank-title">Answer Bank</div>
     <div class="items-bank">
       <div class="category dropzone" id="key-people-bank" data-bank="Key People"><h3>Key People</h3></div>
       <div class="category dropzone" id="key-concepts-bank" data-bank="Key Concepts"><h3>Key Concepts</h3></div>
-      <div class="category dropzone" id="key-aphorisms-bank" data-bank="Aphorisms"><h3>Key Aphorisms</h3></div>
-      <div class="category dropzone" id="applications-bank" data-bank="Applications"><h3>Applications</h3></div>
+      <div class="category dropzone" id="key-aphorisms-bank" data-bank="Aphorisms"><h3>Key Aphorisms / Thought Experiments</h3></div>
+      <div class="category dropzone" id="applications-bank" data-bank="Applications"><h3>Contemporary Applications</h3></div>
     </div>
   </div>
 </div>
 
 <script>
-/* ==== Example Items (you can expand with your full lists) ==== */
+/* =========================
+   FULL BANK ITEMS (nothing removed)
+   ========================= */
 const keyPeopleItems = [
-  {id:"confucius",text:"Confucius (孔子)",pronounce:"Kǒngzǐ",school:"儒家"},
-  {id:"mencius",text:"Mencius (孟子)",pronounce:"Mèngzǐ",school:"儒家"},
-  {id:"xunzi",text:"Xunzi (荀子)",pronounce:"Xúnzǐ",school:"儒家"},
-  {id:"laozi",text:"Laozi (老子)",pronounce:"Lǎozǐ",school:"道家"},
-  {id:"zhuangzi",text:"Zhuangzi (庄子)",pronounce:"Zhuāngzǐ",school:"道家"},
-  {id:"liezi",text:"Liezi (列子)",pronounce:"Lièzǐ",school:"道家"},
-  {id:"mozi",text:"Mozi (墨子)",pronounce:"Mòzǐ",school:"墨家"},
-  {id:"hanfeizi",text:"Han Feizi (韩非子)",pronounce:"Hán Fēizǐ",school:"法家"}
-];
-const keyConceptsItems = [
-  {id:"ren",text:"Ren (仁) – Benevolence",pronounce:"Rén",school:"儒家"},
-  {id:"li",text:"Li (礼) – Ritual",pronounce:"Lǐ",school:"儒家"},
-  {id:"dao",text:"Dao (道) – The Way",pronounce:"Dào",school:"道家"},
-  {id:"jianai",text:"Jian Ai (兼爱) – Universal Love",pronounce:"Jiān Ài",school:"墨家"},
-  {id:"fa",text:"Fa (法) – Law",pronounce:"Fǎ",school:"法家"}
-];
-const aphorismItems = [
-  {id:"ru-1",text:"己所不欲，勿施于人",pronounce:"Jǐ suǒ bù yù, wù shī yú rén",school:"儒家"},
-  {id:"dao-1",text:"无为而治",pronounce:"Wúwéi ér zhì",school:"道家"},
-  {id:"mo-1",text:"兼爱",pronounce:"Jiān ài",school:"墨家"},
-  {id:"fa-1",text:"以法治国",pronounce:"Yǐ fǎ zhìguó",school:"法家"}
-];
-const applicationItems = [
-  {id:"ru-app",text:"Social harmony",school:"儒家"},
-  {id:"dao-app",text:"Environmental sustainability",school:"道家"},
-  {id:"mo-app",text:"Conflict resolution",school:"墨家"},
-  {id:"fa-app",text:"Rule of law",school:"法家"}
+  {id:"confucius", text:"Confucius (孔子)", pronounce:"孔子"},
+  {id:"mencius", text:"Mencius (孟子)", pronounce:"孟子"},
+  {id:"xunzi", text:"Xunzi (荀子)", pronounce:"荀子"},
+  {id:"laozi", text:"Laozi (老子)", pronounce:"老子"},
+  {id:"zhuangzi", text:"Zhuangzi (庄子)", pronounce:"庄子"},
+  {id:"liezi", text:"Liezi (列子)", pronounce:"列子"},
+  {id:"mozi", text:"Mozi (墨子)", pronounce:"墨子"},
+  {id:"later-mohists", text:"Later Mohists", pronounce:"后期墨家"},
+  {id:"shangyang", text:"Shang Yang (商鞅)", pronounce:"商鞅"},
+  {id:"shen-buhai", text:"Shen Buhai (申不害)", pronounce:"申不害"},
+  {id:"hanfeizi", text:"Han Feizi (韩非子)", pronounce:"韩非子"}
 ];
 
-/* ==== Answer Key ==== */
+const keyConceptsItems = [
+  // Confucianism
+  {id:"ren", text:"Ren 仁 — Benevolence", pronounce:"仁"},
+  {id:"li", text:"Li 礼 — Ritual propriety", pronounce:"礼"},
+  {id:"yi", text:"Yi 义 — Righteousness", pronounce:"义"},
+  {id:"xiao", text:"Xiao 孝 — Filial piety", pronounce:"孝"},
+  {id:"junzi", text:"Junzi 君子 — Exemplary person", pronounce:"君子"},
+  // Daoism
+  {id:"dao", text:"Dao 道 — The Way", pronounce:"道"},
+  {id:"wuwei", text:"Wu wei 无为 — Non-action", pronounce:"无为"},
+  {id:"ziran", text:"Ziran 自然 — Naturalness", pronounce:"自然"},
+  {id:"yinyang", text:"Yin–Yang 阴阳 — Complementary opposites", pronounce:"阴阳"},
+  {id:"pu", text:"Pu 朴 — The uncarved block", pronounce:"朴"},
+  // Mohism
+  {id:"jianai", text:"Jian ai 兼爱 — Universal love", pronounce:"兼爱"},
+  {id:"feigong", text:"Fei gong 非攻 — Against offensive war", pronounce:"非攻"},
+  {id:"shangxian", text:"Shang xian 尚贤 — Elevate the worthy", pronounce:"尚贤"},
+  {id:"jieyong", text:"Jie yong 节用 — Frugality", pronounce:"节用"},
+  {id:"tianzhi", text:"Tianzhi 天志 — Will of Heaven", pronounce:"天志"},
+  // Legalism
+  {id:"fa", text:"Fa 法 — Law", pronounce:"法"},
+  {id:"shu", text:"Shu 术 — Administrative techniques", pronounce:"术"},
+  {id:"shi", text:"Shi 势 — Positional power", pronounce:"势"},
+  {id:"centralization", text:"Centralization 中央集权", pronounce:"中央集权"},
+  {id:"realism", text:"Realism 现实主义", pronounce:"现实主义"}
+];
+
+const aphorismItems = [
+  // Confucian (no author names)
+  {id:"ru-quote1", text:"Do not impose on others what you do not desire.", pronounce:"己所不欲 勿施于人"},
+  {id:"ru-quote2", text:"The gentleman understands what is moral; the small man what is profitable.", pronounce:"君子喻于义 小人喻于利"},
+  {id:"ru-quote3", text:"Learning without thought is labor lost; thought without learning is perilous.", pronounce:"学而不思则罔 思而不学则殆"},
+  // Daoist (no author names)
+  {id:"dao-quote1", text:"The Useless Tree — it survives because it has no use.", pronounce:"无所可用而全其天年"}, 
+  {id:"dao-quote2", text:"Butterfly Dream — who dreams whom?", pronounce:"庄周梦蝶"}, 
+  {id:"dao-quote3", text:"The greatest carver does the least cutting.", pronounce:"大匠不割"},
+  // Mohist
+  {id:"mo-quote1", text:"If everyone regarded others’ families as their own, disorder would cease.", pronounce:"视人之国若其国 视人之家若其家"},
+  {id:"mo-quote2", text:"Elaborate funerals and music waste resources that could aid the poor.", pronounce:"厚葬久丧与乐非义"},
+  {id:"mo-quote3", text:"Killing ten is ten times the crime.", pronounce:"杀一不义者罪一 杀十罪十"},
+  // Legalist
+  {id:"fa-quote1", text:"When times change, measures of government must change.", pronounce:"世异则事异 事异则法异"},
+  {id:"fa-quote2", text:"The ruler governs by the two handles of punishment and favor.", pronounce:"以刑德二柄御臣"},
+  {id:"fa-quote3", text:"In an enlightened state, law supplies the only instruction.", pronounce:"明主之国 无书而法为教"}
+];
+
+const applicationItems = [
+  // Confucianism
+  {id:"ru-app1", text:"Business Ethics: CSR, stakeholder focus"},
+  {id:"ru-app2", text:"Education: character & mentorship"},
+  {id:"ru-app3", text:"Leadership: moral example & ritual culture"},
+  // Daoism
+  {id:"dao-app1", text:"Systems Thinking: minimal intervention"},
+  {id:"dao-app2", text:"Mindfulness & Flow: acceptance, balance"},
+  {id:"dao-app3", text:"Sustainability: biomimicry, circularity"},
+  // Mohism
+  {id:"mo-app1", text:"Effective Altruism: evidence-based charity"},
+  {id:"mo-app2", text:"Peace Studies: rational conflict resolution"},
+  {id:"mo-app3", text:"Meritocracy: skills-based hiring"},
+  // Legalism
+  {id:"fa-app1", text:"Institutional Design: clear public rules"},
+  {id:"fa-app2", text:"Behavioral Economics: incentive structures"},
+  {id:"fa-app3", text:"Management Science: KPIs & accountability"}
+];
+
+/* =========================
+   ANSWER KEY (matches your long table)
+   ========================= */
 const answerKey = {
-  "Key People": {"儒家":["confucius","mencius","xunzi"],"道家":["laozi","zhuangzi","liezi"],"墨家":["mozi"],"法家":["hanfeizi"]},
-  "Key Concepts": {"儒家":["ren","li"],"道家":["dao"],"墨家":["jianai"],"法家":["fa"]},
-  "Aphorisms": {"儒家":["ru-1"],"道家":["dao-1"],"墨家":["mo-1"],"法家":["fa-1"]},
-  "Applications": {"儒家":["ru-app"],"道家":["dao-app"],"墨家":["mo-app"],"法家":["fa-app"]}
+  "Key People": {
+    "儒家": ["confucius","mencius","xunzi"],
+    "道家": ["laozi","zhuangzi","liezi"],
+    "墨家": ["mozi","later-mohists"],
+    "法家": ["shangyang","shen-buhai","hanfeizi"]
+  },
+  "Key Concepts": {
+    "儒家": ["ren","li","yi","xiao","junzi"],
+    "道家": ["dao","wuwei","ziran","yinyang","pu"],
+    "墨家": ["jianai","feigong","shangxian","jieyong","tianzhi"],
+    "法家": ["fa","shu","shi","centralization","realism"]
+  },
+  "Aphorisms": {
+    "儒家": ["ru-quote1","ru-quote2","ru-quote3"],
+    "道家": ["dao-quote1","dao-quote2","dao-quote3"],
+    "墨家": ["mo-quote1","mo-quote2","mo-quote3"],
+    "法家": ["fa-quote1","fa-quote2","fa-quote3"]
+  },
+  "Applications": {
+    "儒家": ["ru-app1","ru-app2","ru-app3"],
+    "道家": ["dao-app1","dao-app2","dao-app3"],
+    "墨家": ["mo-app1","mo-app2","mo-app3"],
+    "法家": ["fa-app1","fa-app2","fa-app3"]
+  }
 };
 
-/* === Utilities === */
-function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a}
-function makeDraggable(item,home){
-  const div=document.createElement("div");
-  div.className="draggable";div.draggable=true;
-  div.dataset.id=item.id;div.dataset.home=home;
-  div.innerHTML=`<span>${item.text}</span>`+(item.pronounce?`<button class="speaker" data-pronounce="${item.pronounce}">🔊</button>`:"");
-  div.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",item.id)});
-  return div;
+/* ============== DND + RENDER ============== */
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+function makeDraggable(item, homeId){
+  const d = document.createElement("div");
+  d.className = "draggable";
+  d.draggable = true;
+  d.dataset.id = item.id;
+  d.dataset.home = homeId;  // for reset
+  d.innerHTML = `<span>${item.text}</span>` + (item.pronounce ? ` <button class="speaker" data-pronounce="${item.pronounce}">🔊</button>` : "");
+  d.addEventListener("dragstart", e => { e.dataTransfer.setData("text/plain", item.id); });
+  return d;
 }
-function renderBank(items,id){const box=document.getElementById(id);box.innerHTML="<h3>"+box.querySelector("h3").innerText+"</h3>";shuffle(items).forEach(it=>box.appendChild(makeDraggable(it,id)))}
+function renderBank(items, containerId){
+  const box = document.getElementById(containerId);
+  // keep the <h3>, remove any existing items
+  [...box.children].forEach((ch,idx)=>{ if(idx>0) box.removeChild(ch); });
+  shuffle(items).forEach(it => box.appendChild(makeDraggable(it, containerId)));
+}
 
-/* === Init === */
-document.addEventListener("DOMContentLoaded",()=>{
-  renderBank([...keyPeopleItems],"key-people-bank");
-  renderBank([...keyConceptsItems],"key-concepts-bank");
-  renderBank([...aphorismItems],"key-aphorisms-bank");
-  renderBank([...applicationItems],"applications-bank");
+document.addEventListener("DOMContentLoaded", () => {
+  renderBank([...keyPeopleItems], "key-people-bank");
+  renderBank([...keyConceptsItems], "key-concepts-bank");
+  renderBank([...aphorismItems], "key-aphorisms-bank");
+  renderBank([...applicationItems], "applications-bank");
 
-  document.querySelectorAll(".dropzone").forEach(zone=>{
-    zone.addEventListener("dragover",e=>{e.preventDefault();zone.classList.add("highlight")});
-    zone.addEventListener("dragleave",()=>zone.classList.remove("highlight"));
-    zone.addEventListener("drop",e=>{
-      e.preventDefault();zone.classList.remove("highlight");
-      const id=e.dataTransfer.getData("text/plain");
-      const el=document.querySelector(`.draggable[data-id='${id}']`);
-      if(el) zone.appendChild(el);
+  // All dropzones: matrix cells + bank columns
+  document.querySelectorAll(".dropzone").forEach(zone => {
+    zone.addEventListener("dragover", e => { e.preventDefault(); zone.classList.add("highlight"); });
+    zone.addEventListener("dragleave", () => zone.classList.remove("highlight"));
+    zone.addEventListener("drop", e => {
+      e.preventDefault(); zone.classList.remove("highlight");
+      const id = e.dataTransfer.getData("text/plain");
+      const el = document.querySelector(`.draggable[data-id='${id}']`);
+      if (el) zone.appendChild(el); // MOVE, don't clone
     });
   });
 
-  document.body.addEventListener("click",e=>{
-    if(e.target.classList.contains("speaker")){
-      const txt=e.target.dataset.pronounce;
-      const ut=new SpeechSynthesisUtterance(txt);
-      ut.lang="zh-CN";
-      speechSynthesis.speak(ut);
+  // Global audio
+  document.body.addEventListener("click", e => {
+    if (e.target.classList.contains("speaker")) {
+      const phrase = e.target.dataset.pronounce;
+      if ('speechSynthesis' in window && phrase) {
+        const u = new SpeechSynthesisUtterance(phrase);
+        u.lang = "zh-CN"; u.rate = 0.9;
+        speechSynthesis.speak(u);
+      }
     }
   });
 });
 
-/* === Check & Reset === */
+/* ============== CHECK & RESET ============== */
 function checkAnswers(){
-  document.querySelectorAll(".dropzone").forEach(zone=>{
-    if(zone.dataset.school){
-      const cat=zone.dataset.category,sch=zone.dataset.school;
-      zone.querySelectorAll(".draggable").forEach(d=>{
-        const ok=answerKey[cat][sch].includes(d.dataset.id);
-        d.classList.remove("correct","incorrect");
-        d.classList.add(ok?"correct":"incorrect");
-      });
-    }
+  let score = 0, total = 0;
+
+  // clear previous marks
+  document.querySelectorAll(".draggable").forEach(d=>d.classList.remove("correct","incorrect"));
+
+  // for each matrix cell
+  document.querySelectorAll(".dropzone[data-school]").forEach(cell=>{
+    const category = cell.dataset.category;
+    const school   = cell.dataset.school;
+    const expected = (answerKey[category] && answerKey[category][school]) ? answerKey[category][school] : [];
+    total += expected.length;
+
+    const placed = [...cell.querySelectorAll(".draggable")].map(d=>d.dataset.id);
+
+    // mark each placed item
+    [...cell.querySelectorAll(".draggable")].forEach(d=>{
+      const ok = expected.includes(d.dataset.id);
+      d.classList.add(ok ? "correct" : "incorrect");
+      if (ok) score += 1;
+    });
   });
+
+  document.getElementById("score").textContent = `Score: ${score} / ${total}`;
 }
+
 function resetBoard(){
-  document.querySelectorAll(".draggable").forEach(el=>{
-    const home=el.dataset.home;
-    document.getElementById(home).appendChild(el);
-    el.classList.remove("correct","incorrect");
+  // move all items back to their original bank
+  document.querySelectorAll(".draggable").forEach(d=>{
+    const home = d.dataset.home;
+    const box = document.getElementById(home);
+    if (box) box.appendChild(d);
+    d.classList.remove("correct","incorrect");
   });
+  document.getElementById("score").textContent = "";
 }
 </script>
 </body>
