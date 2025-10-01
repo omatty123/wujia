@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Chinese Philosophical Schools Matrix</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e8e8e8;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .container { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .matrix-section { flex: 1; }
+    .items-bank {
+      width: 100%; background: rgba(255, 255, 255, 0.03);
+      border-radius: 15px; padding: 20px;
+      backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);
+      max-height: 80vh; overflow-y: auto;
+    }
+    h1 {
+      text-align: center; font-size: 2.5em; margin-bottom: 10px;
+      background: linear-gradient(45deg, #d4af37, #f4e4c1);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .subtitle, .instructions { text-align: center; color: #a8a8a8; margin-bottom: 20px; font-style: italic; }
+    .table-wrapper {
+      overflow-x: auto; background: rgba(255, 255, 255, 0.03);
+      border-radius: 15px; padding: 20px;
+      backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    table { width: 100%; border-collapse: collapse; background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+    th {
+      background: rgba(255, 255, 255, 0.1); padding: 20px 15px; text-align: left; font-size: 1.1em;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2); position: sticky; top: 0;
+    }
+    th:first-child { background: rgba(255, 255, 255, 0.15); font-weight: bold; color: #d4af37; width: 180px; }
+    .ru-header { color: #d4af37; border-bottom: 3px solid #d4af37; }
+    .dao-header { color: #4a90e2; border-bottom: 3px solid #4a90e2; }
+    .mo-header { color: #50c878; border-bottom: 3px solid #50c878; }
+    .fa-header { color: #e74c3c; border-bottom: 3px solid #e74c3c; }
+    td {
+      padding: 20px 15px; vertical-align: top; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      line-height: 1.7; min-height: 200px; border: 2px dashed rgba(255, 255, 255, 0.2);
+    }
+    td:first-child { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: #d4af37; border: none; }
+    tr:hover td { background: rgba(255, 255, 255, 0.05); }
+    .school-name { font-size: 1.3em; font-weight: bold; margin-bottom: 5px; }
+    .translation { font-size: 0.9em; color: #a8a8a8; font-style: italic; }
+    .category { margin-bottom: 30px; }
+    .category h3 { color: #d4af37; margin-bottom: 10px; text-align: center; }
+    .draggable {
+      padding: 12px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px; cursor: grab; border-left: 3px solid #d4af37;
+      font-size: 0.9em; display: flex; align-items: center; gap: 5px;
+    }
+    .draggable:hover { background: rgba(255, 255, 255, 0.2); }
+    .draggable:active { cursor: grabbing; }
+    .speaker { background: none; border: none; color: #d4af37; font-size: 1.2em; cursor: pointer; }
+    .dropped-item {
+      margin-bottom: 10px; padding: 10px; background: rgba(0, 0, 0, 0.3);
+      border-radius: 5px; border-left: 3px solid currentColor;
+    }
+    .check-button {
+      display: block; margin: 20px auto; padding: 10px 20px; background: #d4af37;
+      color: #1a1a2e; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;
+    }
+    .check-button:hover { background: #f4e4c1; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="matrix-section">
+      <h1>四大哲学流派</h1>
+      <p class="subtitle">The Four Great Philosophical Schools of Ancient China</p>
+      <p class="instructions">Drag and drop the items from the bank below into the correct cells in the matrix. Click 🔊 for pronunciation.</p>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th class="ru-header"><div class="school-name">儒家 Confucianism</div></th>
+              <th class="dao-header"><div class="school-name">道家 Daoism</div></th>
+              <th class="mo-header"><div class="school-name">墨家 Mohism</div></th>
+              <th class="fa-header"><div class="school-name">法家 Legalism</div></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Key People</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
+            <tr><td>Key Concepts</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
+            <tr><td>Key Aphorisms / Thought Experiments</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
+            <tr><td>Contemporary Applications</td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td><td class="dropzone"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="check-button" onclick="checkAnswers()">Check Answers</button>
+    </div>
+    <div class="items-bank">
+      <h2>Items Bank</h2>
+      <div class="category">
+        <h3>Key People</h3>
+        <div class="draggable" draggable="true" data-id="confucius"><button class="speaker" data-pronounce="孔子">🔊</button> Confucius (孔子)</div>
+        <div class="draggable" draggable="true" data-id="mencius"><button class="speaker" data-pronounce="孟子">🔊</button> Mencius (孟子)</div>
+        <div class="draggable" draggable="true" data-id="xunzi"><button class="speaker" data-pronounce="荀子">🔊</button> Xunzi (荀子)</div>
+        <div class="draggable" draggable="true" data-id="laozi"><button class="speaker" data-pronounce="老子">🔊</button> Laozi (老子)</div>
+        <div class="draggable" draggable="true" data-id="zhuangzi"><button class="speaker" data-pronounce="庄子">🔊</button> Zhuangzi (庄子)</div>
+        <div class="draggable" draggable="true" data-id="mozi"><button class="speaker" data-pronounce="墨子">🔊</button> Mozi (墨子)</div>
+        <div class="draggable" draggable="true" data-id="han-feizi"><button class="speaker" data-pronounce="韩非子">🔊</button> Han Feizi (韩非子)</div>
+      </div>
+      <!-- You can add more categories and draggable items here as in your long version -->
+    </div>
+  </div>
+  <script>
+    let draggedElement = null;
+    document.querySelectorAll('.draggable').forEach(item => {
+      item.addEventListener('dragstart', e => {
+        draggedElement = e.target;
+        e.dataTransfer.setData('text/plain', e.target.dataset.id);
+      });
+    });
+    document.querySelectorAll('.dropzone').forEach(zone => {
+      zone.addEventListener('dragover', e => e.preventDefault());
+      zone.addEventListener('drop', e => {
+        e.preventDefault();
+        const id = e.dataTransfer.getData('text/plain');
+        const element = document.querySelector(`[data-id="${id}"]`);
+        if (element) {
+          const newItem = document.createElement('div');
+          newItem.className = 'dropped-item';
+          newItem.textContent = element.textContent;
+          newItem.dataset.id = id;
+          zone.appendChild(newItem);
+          element.remove();
+        }
+      });
+    });
+    function checkAnswers() {
+      alert("Checking logic to be added: compare drops against an answer key.");
+    }
+    // Audio
+    document.addEventListener('click', e => {
+      if (e.target.classList.contains('speaker')) {
+        const pronounce = e.target.dataset.pronounce;
+        if ('speechSynthesis' in window) {
+          const utter = new SpeechSynthesisUtterance(pronounce);
+          utter.lang = 'zh-CN'; utter.rate = 0.8;
+          speechSynthesis.speak(utter);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
