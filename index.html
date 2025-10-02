@@ -1,71 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>四大哲学流派 — Interactive Matrix</title>
+
+<!-- Embedded Lishu-like font for Chinese -->
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{
-    font-family:"Georgia",serif;color:#e8e8e8;background:#0f0f12;
-    background-image:linear-gradient(135deg,rgba(15,15,18,.88),rgba(20,23,35,.88)),
-                     url("https://upload.wikimedia.org/wikipedia/commons/6/6b/Chinese_seal_script_background.png");
-    background-size:cover;background-attachment:fixed;background-blend-mode:overlay;
-    padding:28px 18px 40px;min-height:100vh
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: Georgia, serif;
+    color:#e8e8e8;
+    background:
+      linear-gradient(135deg, rgba(26,26,46,0.92), rgba(22,33,62,0.92)),
+      url('https://upload.wikimedia.org/wikipedia/commons/8/84/Chinese_seal_script_background.png');
+    background-size:cover; background-attachment:fixed; background-position:center;
+    min-height:100vh; padding:24px 16px 36px;
   }
-  .container{max-width:1600px;margin:0 auto}
-  h1{text-align:center;font-size:2.5rem;margin-bottom:6px;
-     background:linear-gradient(45deg,#d4af37,#f4e4c1);
-     -webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .subtitle{ text-align:center;color:#bdbdc7;margin-bottom:4px }
-  .instructions{ text-align:center;color:#b9b9c4;font-style:italic;margin-bottom:16px }
-  .admin-link{ text-align:center;margin-bottom:12px }
-  .admin-link a{ color:#ffd36a;text-decoration:none;border-bottom:1px dashed #ffd36a }
-  /* Matrix */
-  .table-wrapper{overflow-x:auto;background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px;backdrop-filter:blur(8px)}
-  table{width:100%;border-collapse:separate;border-spacing:10px}
-  thead th{padding:14px 10px;text-align:center;font-weight:700;
-    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:10px}
-  thead th:first-child{text-align:left;width:200px}
-  .ru-header{color:#ffd36a}.dao-header{color:#67b4ff}.mo-header{color:#69e7a0}.fa-header{color:#ff6b6b}
-  tbody td{vertical-align:top;padding:12px;min-height:120px;
-    border:2px dashed rgba(255,255,255,.18);border-radius:10px;transition:background .15s ease,outline .15s ease}
-  tbody td:first-child{border:none;background:rgba(255,255,255,.07);font-weight:700;color:#ffd36a}
-  .dropzone.highlight{outline:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.06)}
-  /* Item chips */
-  .draggable{user-select:none;display:flex;align-items:center;justify-content:space-between;gap:8px;
-    padding:9px 10px;margin:8px 0;border-radius:8px;background:rgba(255,255,255,.12);
-    border-left:3px solid rgba(255,255,255,.35);cursor:grab;transition:background .15s ease,transform .05s ease}
-  .draggable:active{cursor:grabbing;transform:scale(.99)}
-  .draggable.correct{border:2px solid #2ecc71}
-  .draggable.incorrect{border:2px solid #e74c3c}
-  .speaker{background:none;border:none;color:#ffd36a;font-size:1.05rem;cursor:pointer}
-  /* Buttons / score */
-  .btnbar{display:flex;gap:10px;justify-content:center;align-items:center;margin:14px 0 6px}
-  .btn{appearance:none;border:none;border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;
-    background:#ffd36a;color:#18181b;transition:filter .15s ease,transform .05s ease}
-  .btn:hover{filter:brightness(1.06)}.btn:active{transform:translateY(1px)}
-  .btn-ghost{background:transparent;color:#ffd36a;outline:1px solid #ffd36a}
-  #score{text-align:center;color:#dcdce6;margin-bottom:10px;min-height:1em}
+
+  .chinese {
+    font-family: 'ZCOOL QingKe HuangYou','KaiTi','SimSun',serif;
+    letter-spacing: .02em;
+  }
+
+  .container { max-width: 1600px; margin: 0 auto; }
+
+  h1 {
+    text-align:center; font-size: 2.8rem; margin-bottom:8px;
+    background:linear-gradient(45deg,#d4af37,#f4e4c1);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .subtitle { text-align:center; color:#bdbdc9; margin-bottom:8px }
+  .instructions { text-align:center; color:#b9b9c4; font-style:italic; margin-bottom:16px }
+
+  /* Table */
+  .table-wrapper {
+    overflow-x:auto; background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.1); border-radius:14px;
+    padding:16px; backdrop-filter:blur(8px); margin-bottom:16px;
+  }
+  table { width:100%; border-collapse:separate; border-spacing:10px; font-size:1.1rem; }
+  thead th {
+    padding:14px 10px; text-align:center; font-weight:700;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12); border-radius:10px; position:sticky; top:0; z-index:5;
+  }
+  thead th:first-child { text-align:left; width:210px }
+  tbody td:first-child {
+    background:rgba(255,255,255,.07); font-weight:700; color:#ffd36a;
+    border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:16px;
+  }
+  .dropzone {
+    vertical-align:top; min-height:140px; padding:12px;
+    border:2px dashed rgba(255,255,255,.2); border-radius:10px; transition:background .15s, outline .15s;
+  }
+  .dropzone.highlight { outline:2px solid rgba(255,255,255,.4); background:rgba(255,255,255,.06); }
+
+  /* Chips */
+  .chip {
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    padding:10px 12px; margin:7px 0; border-radius:8px;
+    background:rgba(0,0,0,.4); border-left:3px solid #ffd36a; font-weight:600; cursor:default;
+  }
+  .chip .remove { background:none; border:none; color:#ff6b6b; font-size:1rem; cursor:pointer }
+  .token {  /* bank token */
+    display:flex; align-items:center; gap:8px;
+    padding:11px 12px; margin:8px 0; border-radius:8px; cursor:grab; user-select:none; font-weight:600;
+    background:rgba(255,255,255,.12); border-left:3px solid rgba(255,255,255,.35);
+    transition:background .15s ease, transform .05s ease;
+  }
+  .token:active { cursor:grabbing; transform:scale(.99); }
+  .speaker { background:none; border:none; color:#ffd36a; font-size:1rem; cursor:pointer }
+
   /* Bank */
-  .bank-wrapper{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-    border-radius:14px;padding:16px;backdrop-filter:blur(8px);margin-top:18px}
-  .bank-title{text-align:center;font-weight:700;margin-bottom:10px;color:#f4e4c1}
-  .items-bank{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-  .category{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.08);
-    border-radius:12px;padding:12px;min-height:220px}
-  .category h3{text-align:center;margin-bottom:8px;font-size:1rem;color:#ffd36a}
-  @media(max-width:900px){.items-bank{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:600px){.items-bank{grid-template-columns:1fr}}
+  .bank-wrapper {
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+    border-radius:14px; padding:16px; backdrop-filter:blur(8px);
+  }
+  .bank-title { text-align:center; font-weight:700; color:#f4e4c1; margin-bottom:8px }
+  .bank-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px }
+  .bank-col { background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:12px; min-height:260px }
+  .bank-col h3 { text-align:center; margin-bottom:10px; color:#ffd36a; }
+
+  /* Buttons / status */
+  .btnbar { display:flex; gap:10px; justify-content:center; align-items:center; margin:14px 0 6px }
+  .btn { appearance:none; border:none; border-radius:10px; padding:10px 18px; font-weight:700; cursor:pointer;
+         background:#ffd36a; color:#18181b; }
+  .btn.ghost { background:transparent; color:#ffd36a; outline:1px solid #ffd36a; }
+  #status { text-align:center; color:#dcdce6; min-height:1.2em; margin-bottom:4px }
+
+  @media (max-width:900px){ .bank-grid { grid-template-columns:repeat(2,1fr) } }
+  @media (max-width:600px){ .bank-grid { grid-template-columns:1fr } }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>四大哲学流派</h1>
-  <div class="subtitle">The Four Great Philosophical Schools of Ancient China</div>
-  <div class="instructions">Drag items into the matrix. You can always move them back. Click 🔊 to hear Chinese.</div>
-  <div class="admin-link">Administer content here → <a href="admin.html">admin.html</a></div>
+  <h1><span class="chinese">四大哲学流派</span></h1>
+  <div class="subtitle">The Four Great Schools of Ancient Chinese Thought</div>
+  <div class="instructions">Drag tokens from the bank into any matrix cell. Bank is source-only; remove a placed token with ✖. Click 🔊 to hear the Chinese.</div>
 
   <!-- MATRIX -->
   <div class="table-wrapper">
@@ -73,10 +108,10 @@
       <thead>
         <tr>
           <th></th>
-          <th class="ru-header">儒家 Confucianism</th>
-          <th class="dao-header">道家 Daoism</th>
-          <th class="mo-header">墨家 Mohism</th>
-          <th class="fa-header">法家 Legalism</th>
+          <th><span class="chinese">儒家</span> Ru Jia</th>
+          <th><span class="chinese">道家</span> Dao Jia</th>
+          <th><span class="chinese">墨家</span> Mo Jia</th>
+          <th><span class="chinese">法家</span> Fa Jia</th>
         </tr>
       </thead>
       <tbody>
@@ -114,289 +149,259 @@
 
   <div class="btnbar">
     <button class="btn" onclick="checkAnswers()">Check Answers</button>
-    <button class="btn btn-ghost" onclick="resetBoard()">Reset</button>
-    <button class="btn btn-ghost" onclick="shuffleBankOnly()">Shuffle Bank</button>
+    <button class="btn ghost" onclick="clearMatrix()">Clear Matrix</button>
+    <a class="btn ghost" href="admin.html">Admin</a>
   </div>
-  <div id="score"></div>
+  <div id="status"></div>
 
   <!-- ANSWER BANK -->
   <div class="bank-wrapper">
     <div class="bank-title">Answer Bank</div>
-    <div class="items-bank">
-      <div class="category dropzone" id="key-people-bank" data-bank="Key People"><h3>Key People</h3></div>
-      <div class="category dropzone" id="key-concepts-bank" data-bank="Key Concepts"><h3>Key Concepts</h3></div>
-      <div class="category dropzone" id="key-aphorisms-bank" data-bank="Aphorisms"><h3>Key Aphorisms / Thought Experiments</h3></div>
-      <div class="category dropzone" id="applications-bank" data-bank="Applications"><h3>Contemporary Applications</h3></div>
+    <div class="bank-grid">
+      <div class="bank-col" id="bank-people"><h3>Key People</h3></div>
+      <div class="bank-col" id="bank-concepts"><h3>Key Concepts</h3></div>
+      <div class="bank-col" id="bank-aphorisms"><h3>Key Aphorisms / Thought Experiments</h3></div>
+      <div class="bank-col" id="bank-apps"><h3>Contemporary Applications</h3></div>
     </div>
   </div>
 </div>
 
 <script>
-/* =========================
-   Storage + Merge Strategy
-   ========================= */
-const STORAGE_KEY = "matrixCustomItemsV1";
+/* ========= Source of Truth ========= */
+const STORAGE_KEY = "wujiaTokenBankV1";
 
-/* Defaults — full sets from your big answer key (aphorisms have no author names) */
-const defaults = {
+/* Default 51-token set (with ALL Chinese wrapped; Kongzi/Mengzi; The People 民; no Liezi; no Shen Buhai) */
+const defaultBank = {
   "Key People": [
-    {id:"confucius", text:"Confucius (孔子)", pronounce:"孔子"},
-    {id:"mencius", text:"Mencius (孟子)", pronounce:"孟子"},
-    {id:"xunzi", text:"Xunzi (荀子)", pronounce:"荀子"},
-    {id:"laozi", text:"Laozi (老子)", pronounce:"老子"},
-    {id:"zhuangzi", text:"Zhuangzi (庄子)", pronounce:"庄子"},
-    {id:"liezi", text:"Liezi (列子)", pronounce:"列子"},
-    {id:"mozi", text:"Mozi (墨子)", pronounce:"墨子"},
-    {id:"later-mohists", text:"Later Mohists", pronounce:"后期墨家"},
-    {id:"shangyang", text:"Shang Yang (商鞅)", pronounce:"商鞅"},
-    {id:"shen-buhai", text:"Shen Buhai (申不害)", pronounce:"申不害"},
-    {id:"hanfeizi", text:"Han Feizi (韩非子)", pronounce:"韩非子"}
+    {id:"kongzi",       label:'Kongzi (<span class="chinese">孔子</span>)', pronounce:"孔子", correctSchool:"儒家"},
+    {id:"mengzi",       label:'Mengzi (<span class="chinese">孟子</span>)', pronounce:"孟子", correctSchool:"儒家"},
+    {id:"xunzi",        label:'Xunzi (<span class="chinese">荀子</span>)', pronounce:"荀子", correctSchool:"儒家"},
+    {id:"laozi",        label:'Laozi (<span class="chinese">老子</span>)', pronounce:"老子", correctSchool:"道家"},
+    {id:"zhuangzi",     label:'Zhuangzi (<span class="chinese">庄子</span>)', pronounce:"庄子", correctSchool:"道家"},
+    {id:"mozi",         label:'Mozi (<span class="chinese">墨子</span>)', pronounce:"墨子", correctSchool:"墨家"},
+    {id:"people",       label:'The People (<span class="chinese">民</span>)', pronounce:"民", correctSchool:"墨家"},
+    {id:"shangyang",    label:'Shang Yang (<span class="chinese">商鞅</span>)', pronounce:"商鞅", correctSchool:"法家"},
+    {id:"hanfeizi",     label:'Han Feizi (<span class="chinese">韩非子</span>)', pronounce:"韩非子", correctSchool:"法家"}
   ],
   "Key Concepts": [
-    // 儒家
-    {id:"ren", text:"Ren 仁 — Benevolence", pronounce:"仁"},
-    {id:"li", text:"Li 礼 — Ritual propriety", pronounce:"礼"},
-    {id:"yi", text:"Yi 义 — Righteousness", pronounce:"义"},
-    {id:"xiao", text:"Xiao 孝 — Filial piety", pronounce:"孝"},
-    {id:"junzi", text:"Junzi 君子 — Exemplary person", pronounce:"君子"},
-    // 道家
-    {id:"dao", text:"Dao 道 — The Way", pronounce:"道"},
-    {id:"wuwei", text:"Wu wei 无为 — Non-action", pronounce:"无为"},
-    {id:"ziran", text:"Ziran 自然 — Naturalness", pronounce:"自然"},
-    {id:"yinyang", text:"Yin–Yang 阴阳 — Complementary opposites", pronounce:"阴阳"},
-    {id:"pu", text:"Pu 朴 — The uncarved block", pronounce:"朴"},
-    // 墨家
-    {id:"jianai", text:"Jian ai 兼爱 — Universal love", pronounce:"兼爱"},
-    {id:"feigong", text:"Fei gong 非攻 — Against offensive war", pronounce:"非攻"},
-    {id:"shangxian", text:"Shang xian 尚贤 — Elevate the worthy", pronounce:"尚贤"},
-    {id:"jieyong", text:"Jie yong 节用 — Frugality", pronounce:"节用"},
-    {id:"tianzhi", text:"Tianzhi 天志 — Will of Heaven", pronounce:"天志"},
-    // 法家
-    {id:"fa", text:"Fa 法 — Law", pronounce:"法"},
-    {id:"shu", text:"Shu 术 — Administrative techniques", pronounce:"术"},
-    {id:"shi", text:"Shi 势 — Positional power", pronounce:"势"},
-    {id:"centralization", text:"Centralization 中央集权", pronounce:"中央集权"},
-    {id:"realism", text:"Realism 现实主义", pronounce:"现实主义"}
+    {id:"ren",          label:'<span class="chinese">仁</span> Ren — Benevolence', pronounce:"仁", correctSchool:"儒家"},
+    {id:"li",           label:'<span class="chinese">礼</span> Li — Ritual propriety', pronounce:"礼", correctSchool:"儒家"},
+    {id:"yi",           label:'<span class="chinese">义</span> Yi — Righteousness', pronounce:"义", correctSchool:"儒家"},
+    {id:"xiao",         label:'<span class="chinese">孝</span> Xiao — Filial piety', pronounce:"孝", correctSchool:"儒家"},
+    {id:"junzi",        label:'<span class="chinese">君子</span> Junzi — Exemplary person', pronounce:"君子", correctSchool:"儒家"},
+
+    {id:"dao",          label:'<span class="chinese">道</span> Dao — The Way', pronounce:"道", correctSchool:"道家"},
+    {id:"wuwei",        label:'<span class="chinese">无为</span> Wu wei — Non-action', pronounce:"无为", correctSchool:"道家"},
+    {id:"ziran",        label:'<span class="chinese">自然</span> Ziran — Naturalness', pronounce:"自然", correctSchool:"道家"},
+    {id:"yinyang",      label:'<span class="chinese">阴阳</span> Yin–Yang — Complementary opposites', pronounce:"阴阳", correctSchool:"道家"},
+    {id:"pu",           label:'<span class="chinese">朴</span> Pu — The uncarved block', pronounce:"朴", correctSchool:"道家"},
+
+    {id:"jianai",       label:'<span class="chinese">兼爱</span> Jian ai — Universal love', pronounce:"兼爱", correctSchool:"墨家"},
+    {id:"feigong",      label:'<span class="chinese">非攻</span> Fei gong — Against offensive war', pronounce:"非攻", correctSchool:"墨家"},
+    {id:"shangxian",    label:'<span class="chinese">尚贤</span> Shang xian — Elevate the worthy', pronounce:"尚贤", correctSchool:"墨家"},
+    {id:"jieyong",      label:'<span class="chinese">节用</span> Jie yong — Frugality', pronounce:"节用", correctSchool:"墨家"},
+    {id:"tianzhi",      label:'<span class="chinese">天志</span> Tianzhi — Will of Heaven', pronounce:"天志", correctSchool:"墨家"},
+
+    {id:"fa",           label:'<span class="chinese">法</span> Fa — Law', pronounce:"法", correctSchool:"法家"},
+    {id:"shu",          label:'<span class="chinese">术</span> Shu — Administrative technique', pronounce:"术", correctSchool:"法家"},
+    {id:"shi",          label:'<span class="chinese">势</span> Shi — Positional power', pronounce:"势", correctSchool:"法家"}
   ],
   "Aphorisms": [
-    // 儒家
-    {id:"ru-quote1", text:"Do not impose on others what you do not desire.", pronounce:"己所不欲 勿施于人"},
-    {id:"ru-quote2", text:"The gentleman understands what is moral; the small man what is profitable.", pronounce:"君子喻于义 小人喻于利"},
-    {id:"ru-quote3", text:"Learning without thought is labor lost; thought without learning is perilous.", pronounce:"学而不思则罔 思而不学则殆"},
-    // 道家
-    {id:"dao-quote1", text:"The Useless Tree — it survives because it has no use.", pronounce:"无所可用而全其天年"},
-    {id:"dao-quote2", text:"Butterfly Dream — who dreams whom?", pronounce:"庄周梦蝶"},
-    {id:"dao-quote3", text:"The greatest carver does the least cutting.", pronounce:"大匠不割"},
-    // 墨家
-    {id:"mo-quote1", text:"If everyone regarded others’ families as their own, disorder would cease.", pronounce:"视人之国若其国 视人之家若其家"},
-    {id:"mo-quote2", text:"Elaborate funerals and music waste resources that could aid the poor.", pronounce:"厚葬久丧与乐非义"},
-    {id:"mo-quote3", text:"Killing ten is ten times the crime.", pronounce:"杀一不义者罪一 杀十罪十"},
-    // 法家
-    {id:"fa-quote1", text:"When times change, measures of government must change.", pronounce:"世异则事异 事异则法异"},
-    {id:"fa-quote2", text:"The ruler governs by the two handles of punishment and favor.", pronounce:"以刑德二柄御臣"},
-    {id:"fa-quote3", text:"In an enlightened state, law supplies the only instruction.", pronounce:"明主之国 无书而法为教"}
+    {id:"ru1", label:'<span class="chinese">己所不欲，勿施于人</span> — Do not impose on others what you do not desire.', pronounce:"己所不欲 勿施于人", correctSchool:"儒家"},
+    {id:"ru2", label:'<span class="chinese">君子喻于义，小人喻于利</span> — The gentleman understands what is moral; the small man what is profitable.', pronounce:"君子喻于义 小人喻于利", correctSchool:"儒家"},
+    {id:"ru3", label:'<span class="chinese">学而不思则罔，思而不学则殆</span> — Learning without thought is lost; thought without learning is perilous.', pronounce:"学而不思则罔 思而不学则殆", correctSchool:"儒家"},
+
+    {id:"dao1", label:'<span class="chinese">无用之木</span> — The Useless Tree (it survives because it has no use).', pronounce:"无用之木", correctSchool:"道家"},
+    {id:"dao2", label:'<span class="chinese">庄周梦蝶</span> — Butterfly Dream (who dreams whom?).', pronounce:"庄周梦蝶", correctSchool:"道家"},
+    {id:"dao3", label:'<span class="chinese">大匠不割</span> — The greatest carver does the least cutting.', pronounce:"大匠不割", correctSchool:"道家"},
+
+    {id:"mo1", label:'If everyone regarded others’ families as their own, disorder would cease.', pronounce:"视人之国若其国 视人之家若其家", correctSchool:"墨家"},
+    {id:"mo2", label:'<span class="chinese">厚葬久丧</span>与乐非义 — Elaborate funerals/music waste resources that could aid the poor.', pronounce:"厚葬久丧 与 乐非义", correctSchool:"墨家"},
+    {id:"mo3", label:'<span class="chinese">杀一不义者罪一，杀十罪十</span> — Killing ten is ten times the crime.', pronounce:"杀一不义者罪一 杀十罪十", correctSchool:"墨家"},
+
+    {id:"fa1", label:'When times change, measures of government must change.', pronounce:"世异则事异 事异则法异", correctSchool:"法家"},
+    {id:"fa2", label:'The ruler governs by the two handles of punishment and favor.', pronounce:"以刑德二柄御臣", correctSchool:"法家"},
+    {id:"fa3", label:'In an enlightened state, law supplies the only instruction.', pronounce:"明主之国 无书而法为教", correctSchool:"法家"}
   ],
   "Applications": [
-    // 儒家
-    {id:"ru-app1", text:"Business Ethics: CSR, stakeholder focus"},
-    {id:"ru-app2", text:"Education: character & mentorship"},
-    {id:"ru-app3", text:"Leadership: moral example & ritual culture"},
-    // 道家
-    {id:"dao-app1", text:"Systems Thinking: minimal intervention"},
-    {id:"dao-app2", text:"Mindfulness & Flow: acceptance, balance"},
-    {id:"dao-app3", text:"Sustainability: biomimicry, circularity"},
-    // 墨家
-    {id:"mo-app1", text:"Effective Altruism: evidence-based charity"},
-    {id:"mo-app2", text:"Peace Studies: rational conflict resolution"},
-    {id:"mo-app3", text:"Meritocracy: skills-based hiring"},
-    // 法家
-    {id:"fa-app1", text:"Institutional Design: clear public rules"},
-    {id:"fa-app2", text:"Behavioral Economics: incentive structures"},
-    {id:"fa-app3", text:"Management Science: KPIs & accountability"}
+    {id:"ru-app1", label:'Business Ethics — CSR, stakeholders, long-term relations', pronounce:"", correctSchool:"儒家"},
+    {id:"ru-app2", label:'Education — character & mentorship', pronounce:"", correctSchool:"儒家"},
+    {id:"ru-app3", label:'Leadership — moral example & ritual culture', pronounce:"", correctSchool:"儒家"},
+
+    {id:"dao-app1", label:'Systems Thinking — minimal intervention', pronounce:"", correctSchool:"道家"},
+    {id:"dao-app2", label:'Mindfulness & Flow — acceptance, balance', pronounce:"", correctSchool:"道家"},
+    {id:"dao-app3", label:'Sustainability — biomimicry, circularity', pronounce:"", correctSchool:"道家"},
+
+    {id:"mo-app1", label:'Effective Altruism — evidence-based charity', pronounce:"", correctSchool:"墨家"},
+    {id:"mo-app2", label:'Peace Studies — rational conflict resolution', pronounce:"", correctSchool:"墨家"},
+    {id:"mo-app3", label:'Meritocracy — skills-based hiring', pronounce:"", correctSchool:"墨家"},
+
+    {id:"fa-app1", label:'Institutional Design — clear public rules', pronounce:"", correctSchool:"法家"},
+    {id:"fa-app2", label:'Behavioral Economics — incentive structures', pronounce:"", correctSchool:"法家"},
+    {id:"fa-app3", label:'Management Science — KPIs & accountability', pronounce:"", correctSchool:"法家"}
   ]
 };
 
-/* Default answer key (maps to correct school) */
-const defaultAnswerKey = {
-  "Key People": {
-    "儒家": ["confucius","mencius","xunzi"],
-    "道家": ["laozi","zhuangzi","liezi"],
-    "墨家": ["mozi","later-mohists"],
-    "法家": ["shangyang","shen-buhai","hanfeizi"]
-  },
-  "Key Concepts": {
-    "儒家": ["ren","li","yi","xiao","junzi"],
-    "道家": ["dao","wuwei","ziran","yinyang","pu"],
-    "墨家": ["jianai","feigong","shangxian","jieyong","tianzhi"],
-    "法家": ["fa","shu","shi","centralization","realism"]
-  },
-  "Aphorisms": {
-    "儒家": ["ru-quote1","ru-quote2","ru-quote3"],
-    "道家": ["dao-quote1","dao-quote2","dao-quote3"],
-    "墨家": ["mo-quote1","mo-quote2","mo-quote3"],
-    "法家": ["fa-quote1","fa-quote2","fa-quote3"]
-  },
-  "Applications": {
-    "儒家": ["ru-app1","ru-app2","ru-app3"],
-    "道家": ["dao-app1","dao-app2","dao-app3"],
-    "墨家": ["mo-app1","mo-app2","mo-app3"],
-    "法家": ["fa-app1","fa-app2","fa-app3"]
+/* Storage helpers */
+function loadBank() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return null;
+  try { return JSON.parse(raw); } catch { return null; }
+}
+function saveBank(bank) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(bank));
+}
+
+/* Seed localStorage on first run */
+function ensureBank() {
+  let bank = loadBank();
+  if (!bank) {
+    bank = defaultBank;
+    saveBank(bank);
   }
-};
-
-/* Load custom bank from localStorage (admin.html) */
-function loadCustom(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return {"Key People":[],"Key Concepts":[],"Aphorisms":[],"Applications":[]};
-    const parsed = JSON.parse(raw);
-    // Ensure shape:
-    for(const k of ["Key People","Key Concepts","Aphorisms","Applications"]){
-      if(!Array.isArray(parsed[k])) parsed[k]=[];
-    }
-    return parsed;
-  }catch(e){ return {"Key People":[],"Key Concepts":[],"Aphorisms":[],"Applications":[]}; }
+  return bank;
 }
 
-/* Merge defaults + custom (custom extends the bank; defaults are never erased) */
-const categoryToHomeId = {
-  "Key People":"key-people-bank",
-  "Key Concepts":"key-concepts-bank",
-  "Aphorisms":"key-aphorisms-bank",
-  "Applications":"applications-bank"
-};
+/* Render bank columns (read-only, draggable source) */
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
 
-function mergedBank(){
-  const custom = loadCustom();
-  const out = {};
-  for(const cat of Object.keys(defaults)){
-    out[cat] = [...defaults[cat], ...custom[cat]];
-  }
-  return out;
-}
-
-/* Build a merged answer key (default + any custom items mapped to a school) */
-function mergedAnswerKey(){
-  const key = JSON.parse(JSON.stringify(defaultAnswerKey));
-  const custom = loadCustom();
-  for(const cat of Object.keys(custom)){
-    custom[cat].forEach(item=>{
-      if(item.correctSchool && key[cat] && key[cat][item.correctSchool]){
-        key[cat][item.correctSchool].push(item.id);
-      }
-    });
-  }
-  return key;
-}
-
-/* Utils */
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-
-function makeDraggable(item, homeId){
-  const d = document.createElement("div");
-  d.className = "draggable"; d.draggable = true;
-  d.dataset.id = item.id; d.dataset.home = homeId;
-  d.innerHTML = `<span>${item.text}</span>` + (item.pronounce ? ` <button class="speaker" data-pronounce="${item.pronounce}">🔊</button>` : "");
-  d.addEventListener("dragstart", e => { e.dataTransfer.setData("text/plain", item.id); });
-  return d;
-}
-
-function clearBankColumnKeepHeader(col){
-  // keep <h3>, remove other children
-  [...col.children].forEach((ch, idx)=>{ if(idx>0) col.removeChild(ch); });
-}
-
-function renderAllBanks(){
-  const bank = mergedBank();
-  for(const [cat, items] of Object.entries(bank)){
-    const colId = categoryToHomeId[cat];
-    const col = document.getElementById(colId);
-    if(!col) continue;
-    clearBankColumnKeepHeader(col);
-    shuffle([...items]).forEach(it=> col.appendChild(makeDraggable(it, colId)));
-  }
-  wireDragForNewItems();
-}
-
-/* Drag & Drop wiring */
-function wireDragForNewItems(){
-  document.querySelectorAll(".draggable").forEach(item=>{
-    if(item._wired) return;
-    item.addEventListener("dragstart", e=>{
-      e.dataTransfer.setData("text/plain", item.dataset.id);
-    });
-    item._wired = true;
+function makeTokenEl(item){
+  const el = document.createElement('div');
+  el.className = 'token';
+  el.dataset.id = item.id;
+  el.dataset.category = findCategory(item.id);
+  el.innerHTML = `
+    <span>${item.label}</span>
+    ${item.pronounce ? `<button class="speaker" data-pronounce="${item.pronounce}" title="Pronounce">🔊</button>` : ``}
+  `;
+  el.draggable = true;
+  el.addEventListener('dragstart', (e)=>{
+    e.dataTransfer.setData('text/plain', item.id);
   });
+  return el;
 }
 
+function findCategory(id){
+  for(const cat of Object.keys(currentBank)){
+    if(currentBank[cat].some(x=>x.id===id)) return cat;
+  }
+  return "";
+}
+
+function renderBank(){
+  const cols = {
+    "Key People": document.getElementById('bank-people'),
+    "Key Concepts": document.getElementById('bank-concepts'),
+    "Aphorisms": document.getElementById('bank-aphorisms'),
+    "Applications": document.getElementById('bank-apps')
+  };
+  // Clear while keeping headers
+  Object.values(cols).forEach(col=>{
+    [...col.children].forEach((child, idx)=>{ if(idx>0) col.removeChild(child); });
+  });
+
+  for(const [cat, arr] of Object.entries(currentBank)){
+    const col = cols[cat];
+    shuffle([...arr]).forEach(item => col.appendChild(makeTokenEl(item)));
+  }
+}
+
+/* Matrix drop handling: only table cells accept drops. Adds a copy (chip) with remove button. */
 function wireDropzones(){
-  document.querySelectorAll(".dropzone").forEach(zone=>{
-    zone.addEventListener("dragover", e=>{ e.preventDefault(); zone.classList.add("highlight"); });
-    zone.addEventListener("dragleave", ()=> zone.classList.remove("highlight"));
-    zone.addEventListener("drop", e=>{
-      e.preventDefault(); zone.classList.remove("highlight");
-      const id = e.dataTransfer.getData("text/plain");
-      const el = document.querySelector(`.draggable[data-id='${id}']`);
-      if(el) zone.appendChild(el); // move (not clone)
+  document.querySelectorAll('.dropzone').forEach(zone=>{
+    zone.addEventListener('dragover', e=>{ e.preventDefault(); zone.classList.add('highlight'); });
+    zone.addEventListener('dragleave', ()=> zone.classList.remove('highlight'));
+    zone.addEventListener('drop', e=>{
+      e.preventDefault(); zone.classList.remove('highlight');
+      const id = e.dataTransfer.getData('text/plain');
+      if(!id) return;
+      const item = getItemById(id);
+      if(!item) return;
+      // create a placed chip (copy; bank remains full)
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.dataset.id = item.id;
+      chip.innerHTML = `
+        <span>${item.label}</span>
+        <div>
+          ${item.pronounce ? `<button class="speaker" data-pronounce="${item.pronounce}" title="Pronounce">🔊</button>` : ``}
+          <button class="remove" title="Remove">✖</button>
+        </div>
+      `;
+      chip.querySelector('.remove').onclick = ()=> chip.remove();
+      zone.appendChild(chip);
     });
   });
 }
 
 /* Audio */
-document.body.addEventListener("click", e=>{
-  if(e.target.classList.contains("speaker")){
+document.body.addEventListener('click', e=>{
+  if(e.target.classList.contains('speaker')){
     const phrase = e.target.dataset.pronounce;
     if('speechSynthesis' in window && phrase){
       const u = new SpeechSynthesisUtterance(phrase);
-      u.lang="zh-CN"; u.rate=0.9;
+      u.lang = 'zh-CN'; u.rate = 0.9;
       speechSynthesis.speak(u);
     }
   }
 });
 
-/* Check / Reset / Shuffle */
+/* Helpers */
+function getItemById(id){
+  for(const cat of Object.keys(currentBank)){
+    const it = currentBank[cat].find(x=>x.id===id);
+    if(it) return it;
+  }
+  return null;
+}
+
+/* Check answers: compare placed chip ids vs expected school for that cell */
 function checkAnswers(){
-  const key = mergedAnswerKey();
-  let score=0, total=0;
+  const key = buildAnswerKeyFromBank(currentBank);
+  let correct = 0, total = 0;
 
-  // Clear previous marks
-  document.querySelectorAll(".draggable").forEach(d=>d.classList.remove("correct","incorrect"));
-
-  document.querySelectorAll(".dropzone[data-school]").forEach(cell=>{
+  document.querySelectorAll('.dropzone').forEach(cell=>{
     const cat = cell.dataset.category;
-    const sch = cell.dataset.school;
-    const expected = (key[cat] && key[cat][sch]) ? key[cat][sch] : [];
-    total += expected.length;
-
-    cell.querySelectorAll(".draggable").forEach(d=>{
-      const ok = expected.includes(d.dataset.id);
-      d.classList.add(ok ? "correct" : "incorrect");
-      if(ok) score++;
+    const school = cell.dataset.school; // 儒家/道家/墨家/法家
+    const expected = (key[cat] && key[cat][school]) ? new Set(key[cat][school]) : new Set();
+    const chips = [...cell.querySelectorAll('.chip')];
+    chips.forEach(ch => {
+      total++;
+      const ok = expected.has(ch.dataset.id);
+      ch.style.borderColor = ok ? '#2ecc71' : '#e74c3c';
+      if(ok) correct++;
     });
   });
 
-  document.getElementById("score").textContent = `Score: ${score} / ${total}`;
+  document.getElementById('status').textContent = `Score: ${correct} / ${total}`;
 }
 
-function resetBoard(){
-  // send every item back to its home bank column
-  document.querySelectorAll(".draggable").forEach(d=>{
-    const home = d.dataset.home;
-    const col = document.getElementById(home);
-    if(col) col.appendChild(d);
-    d.classList.remove("correct","incorrect");
-  });
-  document.getElementById("score").textContent = "";
+function buildAnswerKeyFromBank(bank){
+  const out = {
+    "Key People": { "儒家":[], "道家":[], "墨家":[], "法家":[] },
+    "Key Concepts": { "儒家":[], "道家":[], "墨家":[], "法家":[] },
+    "Aphorisms": { "儒家":[], "道家":[], "墨家":[], "法家":[] },
+    "Applications": { "儒家":[], "道家":[], "墨家":[], "法家":[] }
+  };
+  for(const [cat, arr] of Object.entries(bank)){
+    arr.forEach(item=>{
+      const sch = item.correctSchool || "";
+      if(out[cat] && out[cat][sch]) out[cat][sch].push(item.id);
+    });
+  }
+  return out;
 }
 
-function shuffleBankOnly(){
-  renderAllBanks();
-  document.getElementById("score").textContent = "";
+function clearMatrix(){
+  document.querySelectorAll('.dropzone .chip').forEach(ch => ch.remove());
+  document.getElementById('status').textContent = '';
 }
 
 /* Init */
-document.addEventListener("DOMContentLoaded", ()=>{
-  renderAllBanks();
+let currentBank = ensureBank();
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderBank();
   wireDropzones();
 });
 </script>
