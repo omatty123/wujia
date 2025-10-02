@@ -1,409 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>四大哲学流派 — Interactive Matrix</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinese Philosophical Schools Matrix</title>
 
-<!-- Embedded Lishu-like font for Chinese -->
-<link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
 
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e8e8e8;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+    .container { max-width: 1600px; margin: 0 auto; }
+    h1 {
+      text-align: center;
+      font-size: 2.8em;
+      margin-bottom: 10px;
+      background: linear-gradient(45deg, #d4af37, #f4e4c1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+    .subtitle {
+      text-align: center;
+      color: #a8a8a8;
+      margin-bottom: 40px;
+      font-style: italic;
+      font-size: 1.1em;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 15px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 20px 15px;
+      text-align: center;
+      font-size: 1em;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    th:first-child {
+      background: rgba(255, 255, 255, 0.15);
+      font-weight: bold;
+      color: #d4af37;
+      width: 180px;
+      text-align: left;
+    }
+    .school-name {
+      font-size: 1.8em;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .translation { font-size: 0.9em; color: #bdbdbd; font-style: italic; }
+    .ru-header { color: #d4af37; border-bottom: 3px solid #d4af37; }
+    .dao-header { color: #4a90e2; border-bottom: 3px solid #4a90e2; }
+    .mo-header { color: #50c878; border-bottom: 3px solid #50c878; }
+    .fa-header { color: #e74c3c; border-bottom: 3px solid #e74c3c; }
 
-  body {
-    font-family: Georgia, serif;
-    color:#e8e8e8;
-    background:
-      linear-gradient(135deg, rgba(26,26,46,0.92), rgba(22,33,62,0.92)),
-      url('https://upload.wikimedia.org/wikipedia/commons/8/84/Chinese_seal_script_background.png');
-    background-size:cover; background-attachment:fixed; background-position:center;
-    min-height:100vh; padding:24px 16px 36px;
-  }
-
-  .chinese {
-    font-family: 'ZCOOL QingKe HuangYou','KaiTi','SimSun',serif;
-    letter-spacing: .02em;
-  }
-
-  .container { max-width: 1600px; margin: 0 auto; }
-
-  h1 {
-    text-align:center; font-size: 2.8rem; margin-bottom:8px;
-    background:linear-gradient(45deg,#d4af37,#f4e4c1);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  }
-  .subtitle { text-align:center; color:#bdbdc9; margin-bottom:8px }
-  .instructions { text-align:center; color:#b9b9c4; font-style:italic; margin-bottom:16px }
-
-  /* Table */
-  .table-wrapper {
-    overflow-x:auto; background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.1); border-radius:14px;
-    padding:16px; backdrop-filter:blur(8px); margin-bottom:16px;
-  }
-  table { width:100%; border-collapse:separate; border-spacing:10px; font-size:1.1rem; }
-  thead th {
-    padding:14px 10px; text-align:center; font-weight:700;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.12); border-radius:10px; position:sticky; top:0; z-index:5;
-  }
-  thead th:first-child { text-align:left; width:210px }
-  tbody td:first-child {
-    background:rgba(255,255,255,.07); font-weight:700; color:#ffd36a;
-    border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:16px;
-  }
-  .dropzone {
-    vertical-align:top; min-height:140px; padding:12px;
-    border:2px dashed rgba(255,255,255,.2); border-radius:10px; transition:background .15s, outline .15s;
-  }
-  .dropzone.highlight { outline:2px solid rgba(255,255,255,.4); background:rgba(255,255,255,.06); }
-
-  /* Chips */
-  .chip {
-    display:flex; align-items:center; justify-content:space-between; gap:8px;
-    padding:10px 12px; margin:7px 0; border-radius:8px;
-    background:rgba(0,0,0,.4); border-left:3px solid #ffd36a; font-weight:600; cursor:default;
-  }
-  .chip .remove { background:none; border:none; color:#ff6b6b; font-size:1rem; cursor:pointer }
-  .token {  /* bank token */
-    display:flex; align-items:center; gap:8px;
-    padding:11px 12px; margin:8px 0; border-radius:8px; cursor:grab; user-select:none; font-weight:600;
-    background:rgba(255,255,255,.12); border-left:3px solid rgba(255,255,255,.35);
-    transition:background .15s ease, transform .05s ease;
-  }
-  .token:active { cursor:grabbing; transform:scale(.99); }
-  .speaker { background:none; border:none; color:#ffd36a; font-size:1rem; cursor:pointer }
-
-  /* Bank */
-  .bank-wrapper {
-    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
-    border-radius:14px; padding:16px; backdrop-filter:blur(8px);
-  }
-  .bank-title { text-align:center; font-weight:700; color:#f4e4c1; margin-bottom:8px }
-  .bank-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px }
-  .bank-col { background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:12px; min-height:260px }
-  .bank-col h3 { text-align:center; margin-bottom:10px; color:#ffd36a; }
-
-  /* Buttons / status */
-  .btnbar { display:flex; gap:10px; justify-content:center; align-items:center; margin:14px 0 6px }
-  .btn { appearance:none; border:none; border-radius:10px; padding:10px 18px; font-weight:700; cursor:pointer;
-         background:#ffd36a; color:#18181b; }
-  .btn.ghost { background:transparent; color:#ffd36a; outline:1px solid #ffd36a; }
-  #status { text-align:center; color:#dcdce6; min-height:1.2em; margin-bottom:4px }
-
-  @media (max-width:900px){ .bank-grid { grid-template-columns:repeat(2,1fr) } }
-  @media (max-width:600px){ .bank-grid { grid-template-columns:1fr } }
-</style>
+    td {
+      padding: 20px 15px;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      line-height: 1.7;
+    }
+    td:first-child {
+      background: rgba(255, 255, 255, 0.05);
+      font-weight: 600;
+      color: #d4af37;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    tr:hover td { background: rgba(255, 255, 255, 0.05); }
+    .person { margin-bottom: 12px; }
+    .person-name { font-weight: 600; color: #f4e4c1; }
+    .concept { margin-bottom: 10px; }
+    .concept-term { font-weight: 600; color: #f4e4c1; }
+    .quote {
+      font-style: italic;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid currentColor;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+    .ru-cell { border-left: 3px solid #d4af37; }
+    .dao-cell { border-left: 3px solid #4a90e2; }
+    .mo-cell { border-left: 3px solid #50c878; }
+    .fa-cell { border-left: 3px solid #e74c3c; }
+    .application-item { margin-bottom: 15px; }
+    .app-title {
+      font-weight: 600;
+      color: #f4e4c1;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .chinese {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-weight: 600;
+      font-size: 1.05em;
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 2em; }
+      .school-name { font-size: 1.3em; }
+      th, td { padding: 12px 8px; font-size: 0.9em; }
+      th:first-child { width: 120px; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <h1><span class="chinese">四大哲学流派</span></h1>
-  <div class="subtitle">The Four Great Schools of Ancient Chinese Thought</div>
-  <div class="instructions">Drag tokens from the bank into any matrix cell. Bank is source-only; remove a placed token with ✖. Click 🔊 to hear the Chinese.</div>
+  <div class="container">
+    <h1>四大哲学流派</h1>
+    <p class="subtitle">The Four Great Philosophical Schools of Ancient China</p>
 
-  <!-- MATRIX -->
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th><span class="chinese">儒家</span> Ru Jia</th>
-          <th><span class="chinese">道家</span> Dao Jia</th>
-          <th><span class="chinese">墨家</span> Mo Jia</th>
-          <th><span class="chinese">法家</span> Fa Jia</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Key People</td>
-          <td class="dropzone" data-category="Key People" data-school="儒家"></td>
-          <td class="dropzone" data-category="Key People" data-school="道家"></td>
-          <td class="dropzone" data-category="Key People" data-school="墨家"></td>
-          <td class="dropzone" data-category="Key People" data-school="法家"></td>
-        </tr>
-        <tr>
-          <td>Key Concepts</td>
-          <td class="dropzone" data-category="Key Concepts" data-school="儒家"></td>
-          <td class="dropzone" data-category="Key Concepts" data-school="道家"></td>
-          <td class="dropzone" data-category="Key Concepts" data-school="墨家"></td>
-          <td class="dropzone" data-category="Key Concepts" data-school="法家"></td>
-        </tr>
-        <tr>
-          <td>Key Aphorisms / Thought Experiments</td>
-          <td class="dropzone" data-category="Aphorisms" data-school="儒家"></td>
-          <td class="dropzone" data-category="Aphorisms" data-school="道家"></td>
-          <td class="dropzone" data-category="Aphorisms" data-school="墨家"></td>
-          <td class="dropzone" data-category="Aphorisms" data-school="法家"></td>
-        </tr>
-        <tr>
-          <td>Contemporary Applications</td>
-          <td class="dropzone" data-category="Applications" data-school="儒家"></td>
-          <td class="dropzone" data-category="Applications" data-school="道家"></td>
-          <td class="dropzone" data-category="Applications" data-school="墨家"></td>
-          <td class="dropzone" data-category="Applications" data-school="法家"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th class="ru-header">
+              <div class="school-name"><span class="chinese">儒家</span> Ru Jia</div>
+              <div class="translation">School of Scholars</div>
+            </th>
+            <th class="dao-header">
+              <div class="school-name"><span class="chinese">道家</span> Dao Jia</div>
+              <div class="translation">School of the Way</div>
+            </th>
+            <th class="mo-header">
+              <div class="school-name"><span class="chinese">墨家</span> Mo Jia</div>
+              <div class="translation">School of Mo</div>
+            </th>
+            <th class="fa-header">
+              <div class="school-name"><span class="chinese">法家</span> Fa Jia</div>
+              <div class="translation">School of Law</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- === Key People === -->
+          <tr>
+            <td>Key People</td>
+            <td class="ru-cell">
+              <div class="person"><span class="person-name">Kongzi (孔子, 551–479 BCE)</span><br>Founder who emphasized virtue and social harmony</div>
+              <div class="person"><span class="person-name">Mengzi (孟子, 372–289 BCE)</span><br>Developed theory of inherently good human nature</div>
+              <div class="person"><span class="person-name">Xunzi (荀子, 310–235 BCE)</span><br>Argued human nature requires cultivation through ritual</div>
+            </td>
+            <td class="dao-cell">
+              <div class="person"><span class="person-name">Laozi (老子, 6th c. BCE)</span><br>Legendary author of the Daodejing</div>
+              <div class="person"><span class="person-name">Zhuangzi (庄子, 369–286 BCE)</span><br>Emphasized spontaneity, transformation, and freedom</div>
+            </td>
+            <td class="mo-cell">
+              <div class="person"><span class="person-name">Mozi (墨子, 470–391 BCE)</span><br>Advocated universal love and utilitarianism</div>
+              <div class="person"><span class="person-name">The People (民)</span><br>Ordinary people as moral center of Mohism</div>
+            </td>
+            <td class="fa-cell">
+              <div class="person"><span class="person-name">Shang Yang (商鞅, 390–338 BCE)</span><br>Emphasized law (fa) and harsh punishments</div>
+              <div class="person"><span class="person-name">Han Feizi (韩非子, 280–233 BCE)</span><br>Synthesized Legalist thought</div>
+            </td>
+          </tr>
 
-  <div class="btnbar">
-    <button class="btn" onclick="checkAnswers()">Check Answers</button>
-    <button class="btn ghost" onclick="clearMatrix()">Clear Matrix</button>
-    <a class="btn ghost" href="admin.html">Admin</a>
-  </div>
-  <div id="status"></div>
+          <!-- === Key Concepts === -->
+          <tr>
+            <td>Key Concepts</td>
+            <td class="ru-cell">
+              <div class="concept"><span class="concept-term"><span class="chinese">仁</span> Ren</span> — Benevolence</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">礼</span> Li</span> — Ritual propriety</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">义</span> Yi</span> — Righteousness</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">孝</span> Xiao</span> — Filial piety</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">君子</span> Junzi</span> — Exemplary person</div>
+            </td>
+            <td class="dao-cell">
+              <div class="concept"><span class="concept-term"><span class="chinese">道</span> Dao</span> — The Way</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">无为</span> Wu wei</span> — Effortless action</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">自然</span> Ziran</span> — Naturalness</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">阴阳</span> Yin-Yang</span> — Complementary opposites</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">朴</span> Pu</span> — Simplicity</div>
+            </td>
+            <td class="mo-cell">
+              <div class="concept"><span class="concept-term"><span class="chinese">兼爱</span> Jian ai</span> — Universal love</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">非攻</span> Fei gong</span> — Against offensive war</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">尚贤</span> Shang xian</span> — Elevation of the worthy</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">节用</span> Jie yong</span> — Moderation in expenditure</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">天志</span> Tianzhi</span> — Will of Heaven</div>
+            </td>
+            <td class="fa-cell">
+              <div class="concept"><span class="concept-term"><span class="chinese">法</span> Fa</span> — Law</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">术</span> Shu</span> — Techniques</div>
+              <div class="concept"><span class="concept-term"><span class="chinese">势</span> Shi</span> — Power from position</div>
+              <div class="concept"><span class="concept-term">Centralization</span></div>
+              <div class="concept"><span class="concept-term">Realism</span></div>
+            </td>
+          </tr>
 
-  <!-- ANSWER BANK -->
-  <div class="bank-wrapper">
-    <div class="bank-title">Answer Bank</div>
-    <div class="bank-grid">
-      <div class="bank-col" id="bank-people"><h3>Key People</h3></div>
-      <div class="bank-col" id="bank-concepts"><h3>Key Concepts</h3></div>
-      <div class="bank-col" id="bank-aphorisms"><h3>Key Aphorisms / Thought Experiments</h3></div>
-      <div class="bank-col" id="bank-apps"><h3>Contemporary Applications</h3></div>
+          <!-- === Aphorisms === -->
+          <tr>
+            <td>Key Aphorisms / Thought Experiments</td>
+            <td class="ru-cell">
+              <div class="quote">“Do not impose on others what you do not desire.”</div>
+              <div class="quote">“The gentleman understands what is moral. The small man understands what is profitable.”</div>
+              <div class="quote">“Learning without thought is labor lost; thought without learning is perilous.”</div>
+            </td>
+            <td class="dao-cell">
+              <div class="quote"><strong>The Useless Tree:</strong> survives because it has no use</div>
+              <div class="quote"><strong>Butterfly Dream:</strong> Am I a man dreaming of a butterfly or vice versa?</div>
+              <div class="quote">“The greatest carver does the least cutting.”</div>
+            </td>
+            <td class="mo-cell">
+              <div class="quote">“If everyone regarded others' families as their own, who would create disorder?”</div>
+              <div class="quote">“Elaborate funerals and music waste resources that could feed the hungry.”</div>
+              <div class="quote">“To kill one innocent person is to commit murder; to kill ten is ten times the crime.”</div>
+            </td>
+            <td class="fa-cell">
+              <div class="quote">“When the epoch changed, the ways changed.”</div>
+              <div class="quote">“The enlightened ruler controls ministers through punishment and favor.”</div>
+              <div class="quote">“In the state of an enlightened ruler, law supplies the only instruction.”</div>
+            </td>
+          </tr>
+
+          <!-- === Contemporary Applications === -->
+          <tr>
+            <td>Contemporary Applications</td>
+            <td class="ru-cell">
+              <div class="application-item"><span class="app-title">Business Ethics:</span> Stakeholder responsibility</div>
+              <div class="application-item"><span class="app-title">Education:</span> Character education & mentorship</div>
+              <div class="application-item"><span class="app-title">Leadership:</span> Servant leadership, moral example</div>
+            </td>
+            <td class="dao-cell">
+              <div class="application-item"><span class="app-title">Systems Thinking:</span> Minimal intervention strategies</div>
+              <div class="application-item"><span class="app-title">Mindfulness & Flow:</span> Stress reduction through acceptance</div>
+              <div class="application-item"><span class="app-title">Sustainability:</span> Working with nature, regenerative design</div>
+            </td>
+            <td class="mo-cell">
+              <div class="application-item"><span class="app-title">Effective Altruism:</span> Impartial concern for all humans</div>
+              <div class="application-item"><span class="app-title">Peace Studies:</span> Anti-war activism, rational resolution</div>
+              <div class="application-item"><span class="app-title">Meritocracy:</span> Skills-based hiring, transparency</div>
+            </td>
+            <td class="fa-cell">
+              <div class="application-item"><span class="app-title">Institutional Design:</span> Clear rules and accountability</div>
+              <div class="application-item"><span class="app-title">Behavioral Economics:</span> Incentive structures</div>
+              <div class="application-item"><span class="app-title">Management Science:</span> KPIs, performance management</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-</div>
-
-<script>
-/* ========= Source of Truth ========= */
-const STORAGE_KEY = "wujiaTokenBankV1";
-
-/* Default 51-token set (with ALL Chinese wrapped; Kongzi/Mengzi; The People 民; no Liezi; no Shen Buhai) */
-const defaultBank = {
-  "Key People": [
-    {id:"kongzi",       label:'Kongzi (<span class="chinese">孔子</span>)', pronounce:"孔子", correctSchool:"儒家"},
-    {id:"mengzi",       label:'Mengzi (<span class="chinese">孟子</span>)', pronounce:"孟子", correctSchool:"儒家"},
-    {id:"xunzi",        label:'Xunzi (<span class="chinese">荀子</span>)', pronounce:"荀子", correctSchool:"儒家"},
-    {id:"laozi",        label:'Laozi (<span class="chinese">老子</span>)', pronounce:"老子", correctSchool:"道家"},
-    {id:"zhuangzi",     label:'Zhuangzi (<span class="chinese">庄子</span>)', pronounce:"庄子", correctSchool:"道家"},
-    {id:"mozi",         label:'Mozi (<span class="chinese">墨子</span>)', pronounce:"墨子", correctSchool:"墨家"},
-    {id:"people",       label:'The People (<span class="chinese">民</span>)', pronounce:"民", correctSchool:"墨家"},
-    {id:"shangyang",    label:'Shang Yang (<span class="chinese">商鞅</span>)', pronounce:"商鞅", correctSchool:"法家"},
-    {id:"hanfeizi",     label:'Han Feizi (<span class="chinese">韩非子</span>)', pronounce:"韩非子", correctSchool:"法家"}
-  ],
-  "Key Concepts": [
-    {id:"ren",          label:'<span class="chinese">仁</span> Ren — Benevolence', pronounce:"仁", correctSchool:"儒家"},
-    {id:"li",           label:'<span class="chinese">礼</span> Li — Ritual propriety', pronounce:"礼", correctSchool:"儒家"},
-    {id:"yi",           label:'<span class="chinese">义</span> Yi — Righteousness', pronounce:"义", correctSchool:"儒家"},
-    {id:"xiao",         label:'<span class="chinese">孝</span> Xiao — Filial piety', pronounce:"孝", correctSchool:"儒家"},
-    {id:"junzi",        label:'<span class="chinese">君子</span> Junzi — Exemplary person', pronounce:"君子", correctSchool:"儒家"},
-
-    {id:"dao",          label:'<span class="chinese">道</span> Dao — The Way', pronounce:"道", correctSchool:"道家"},
-    {id:"wuwei",        label:'<span class="chinese">无为</span> Wu wei — Non-action', pronounce:"无为", correctSchool:"道家"},
-    {id:"ziran",        label:'<span class="chinese">自然</span> Ziran — Naturalness', pronounce:"自然", correctSchool:"道家"},
-    {id:"yinyang",      label:'<span class="chinese">阴阳</span> Yin–Yang — Complementary opposites', pronounce:"阴阳", correctSchool:"道家"},
-    {id:"pu",           label:'<span class="chinese">朴</span> Pu — The uncarved block', pronounce:"朴", correctSchool:"道家"},
-
-    {id:"jianai",       label:'<span class="chinese">兼爱</span> Jian ai — Universal love', pronounce:"兼爱", correctSchool:"墨家"},
-    {id:"feigong",      label:'<span class="chinese">非攻</span> Fei gong — Against offensive war', pronounce:"非攻", correctSchool:"墨家"},
-    {id:"shangxian",    label:'<span class="chinese">尚贤</span> Shang xian — Elevate the worthy', pronounce:"尚贤", correctSchool:"墨家"},
-    {id:"jieyong",      label:'<span class="chinese">节用</span> Jie yong — Frugality', pronounce:"节用", correctSchool:"墨家"},
-    {id:"tianzhi",      label:'<span class="chinese">天志</span> Tianzhi — Will of Heaven', pronounce:"天志", correctSchool:"墨家"},
-
-    {id:"fa",           label:'<span class="chinese">法</span> Fa — Law', pronounce:"法", correctSchool:"法家"},
-    {id:"shu",          label:'<span class="chinese">术</span> Shu — Administrative technique', pronounce:"术", correctSchool:"法家"},
-    {id:"shi",          label:'<span class="chinese">势</span> Shi — Positional power', pronounce:"势", correctSchool:"法家"}
-  ],
-  "Aphorisms": [
-    {id:"ru1", label:'<span class="chinese">己所不欲，勿施于人</span> — Do not impose on others what you do not desire.', pronounce:"己所不欲 勿施于人", correctSchool:"儒家"},
-    {id:"ru2", label:'<span class="chinese">君子喻于义，小人喻于利</span> — The gentleman understands what is moral; the small man what is profitable.', pronounce:"君子喻于义 小人喻于利", correctSchool:"儒家"},
-    {id:"ru3", label:'<span class="chinese">学而不思则罔，思而不学则殆</span> — Learning without thought is lost; thought without learning is perilous.', pronounce:"学而不思则罔 思而不学则殆", correctSchool:"儒家"},
-
-    {id:"dao1", label:'<span class="chinese">无用之木</span> — The Useless Tree (it survives because it has no use).', pronounce:"无用之木", correctSchool:"道家"},
-    {id:"dao2", label:'<span class="chinese">庄周梦蝶</span> — Butterfly Dream (who dreams whom?).', pronounce:"庄周梦蝶", correctSchool:"道家"},
-    {id:"dao3", label:'<span class="chinese">大匠不割</span> — The greatest carver does the least cutting.', pronounce:"大匠不割", correctSchool:"道家"},
-
-    {id:"mo1", label:'If everyone regarded others’ families as their own, disorder would cease.', pronounce:"视人之国若其国 视人之家若其家", correctSchool:"墨家"},
-    {id:"mo2", label:'<span class="chinese">厚葬久丧</span>与乐非义 — Elaborate funerals/music waste resources that could aid the poor.', pronounce:"厚葬久丧 与 乐非义", correctSchool:"墨家"},
-    {id:"mo3", label:'<span class="chinese">杀一不义者罪一，杀十罪十</span> — Killing ten is ten times the crime.', pronounce:"杀一不义者罪一 杀十罪十", correctSchool:"墨家"},
-
-    {id:"fa1", label:'When times change, measures of government must change.', pronounce:"世异则事异 事异则法异", correctSchool:"法家"},
-    {id:"fa2", label:'The ruler governs by the two handles of punishment and favor.', pronounce:"以刑德二柄御臣", correctSchool:"法家"},
-    {id:"fa3", label:'In an enlightened state, law supplies the only instruction.', pronounce:"明主之国 无书而法为教", correctSchool:"法家"}
-  ],
-  "Applications": [
-    {id:"ru-app1", label:'Business Ethics — CSR, stakeholders, long-term relations', pronounce:"", correctSchool:"儒家"},
-    {id:"ru-app2", label:'Education — character & mentorship', pronounce:"", correctSchool:"儒家"},
-    {id:"ru-app3", label:'Leadership — moral example & ritual culture', pronounce:"", correctSchool:"儒家"},
-
-    {id:"dao-app1", label:'Systems Thinking — minimal intervention', pronounce:"", correctSchool:"道家"},
-    {id:"dao-app2", label:'Mindfulness & Flow — acceptance, balance', pronounce:"", correctSchool:"道家"},
-    {id:"dao-app3", label:'Sustainability — biomimicry, circularity', pronounce:"", correctSchool:"道家"},
-
-    {id:"mo-app1", label:'Effective Altruism — evidence-based charity', pronounce:"", correctSchool:"墨家"},
-    {id:"mo-app2", label:'Peace Studies — rational conflict resolution', pronounce:"", correctSchool:"墨家"},
-    {id:"mo-app3", label:'Meritocracy — skills-based hiring', pronounce:"", correctSchool:"墨家"},
-
-    {id:"fa-app1", label:'Institutional Design — clear public rules', pronounce:"", correctSchool:"法家"},
-    {id:"fa-app2", label:'Behavioral Economics — incentive structures', pronounce:"", correctSchool:"法家"},
-    {id:"fa-app3", label:'Management Science — KPIs & accountability', pronounce:"", correctSchool:"法家"}
-  ]
-};
-
-/* Storage helpers */
-function loadBank() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return null;
-  try { return JSON.parse(raw); } catch { return null; }
-}
-function saveBank(bank) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(bank));
-}
-
-/* Seed localStorage on first run */
-function ensureBank() {
-  let bank = loadBank();
-  if (!bank) {
-    bank = defaultBank;
-    saveBank(bank);
-  }
-  return bank;
-}
-
-/* Render bank columns (read-only, draggable source) */
-function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
-
-function makeTokenEl(item){
-  const el = document.createElement('div');
-  el.className = 'token';
-  el.dataset.id = item.id;
-  el.dataset.category = findCategory(item.id);
-  el.innerHTML = `
-    <span>${item.label}</span>
-    ${item.pronounce ? `<button class="speaker" data-pronounce="${item.pronounce}" title="Pronounce">🔊</button>` : ``}
-  `;
-  el.draggable = true;
-  el.addEventListener('dragstart', (e)=>{
-    e.dataTransfer.setData('text/plain', item.id);
-  });
-  return el;
-}
-
-function findCategory(id){
-  for(const cat of Object.keys(currentBank)){
-    if(currentBank[cat].some(x=>x.id===id)) return cat;
-  }
-  return "";
-}
-
-function renderBank(){
-  const cols = {
-    "Key People": document.getElementById('bank-people'),
-    "Key Concepts": document.getElementById('bank-concepts'),
-    "Aphorisms": document.getElementById('bank-aphorisms'),
-    "Applications": document.getElementById('bank-apps')
-  };
-  // Clear while keeping headers
-  Object.values(cols).forEach(col=>{
-    [...col.children].forEach((child, idx)=>{ if(idx>0) col.removeChild(child); });
-  });
-
-  for(const [cat, arr] of Object.entries(currentBank)){
-    const col = cols[cat];
-    shuffle([...arr]).forEach(item => col.appendChild(makeTokenEl(item)));
-  }
-}
-
-/* Matrix drop handling: only table cells accept drops. Adds a copy (chip) with remove button. */
-function wireDropzones(){
-  document.querySelectorAll('.dropzone').forEach(zone=>{
-    zone.addEventListener('dragover', e=>{ e.preventDefault(); zone.classList.add('highlight'); });
-    zone.addEventListener('dragleave', ()=> zone.classList.remove('highlight'));
-    zone.addEventListener('drop', e=>{
-      e.preventDefault(); zone.classList.remove('highlight');
-      const id = e.dataTransfer.getData('text/plain');
-      if(!id) return;
-      const item = getItemById(id);
-      if(!item) return;
-      // create a placed chip (copy; bank remains full)
-      const chip = document.createElement('div');
-      chip.className = 'chip';
-      chip.dataset.id = item.id;
-      chip.innerHTML = `
-        <span>${item.label}</span>
-        <div>
-          ${item.pronounce ? `<button class="speaker" data-pronounce="${item.pronounce}" title="Pronounce">🔊</button>` : ``}
-          <button class="remove" title="Remove">✖</button>
-        </div>
-      `;
-      chip.querySelector('.remove').onclick = ()=> chip.remove();
-      zone.appendChild(chip);
-    });
-  });
-}
-
-/* Audio */
-document.body.addEventListener('click', e=>{
-  if(e.target.classList.contains('speaker')){
-    const phrase = e.target.dataset.pronounce;
-    if('speechSynthesis' in window && phrase){
-      const u = new SpeechSynthesisUtterance(phrase);
-      u.lang = 'zh-CN'; u.rate = 0.9;
-      speechSynthesis.speak(u);
-    }
-  }
-});
-
-/* Helpers */
-function getItemById(id){
-  for(const cat of Object.keys(currentBank)){
-    const it = currentBank[cat].find(x=>x.id===id);
-    if(it) return it;
-  }
-  return null;
-}
-
-/* Check answers: compare placed chip ids vs expected school for that cell */
-function checkAnswers(){
-  const key = buildAnswerKeyFromBank(currentBank);
-  let correct = 0, total = 0;
-
-  document.querySelectorAll('.dropzone').forEach(cell=>{
-    const cat = cell.dataset.category;
-    const school = cell.dataset.school; // 儒家/道家/墨家/法家
-    const expected = (key[cat] && key[cat][school]) ? new Set(key[cat][school]) : new Set();
-    const chips = [...cell.querySelectorAll('.chip')];
-    chips.forEach(ch => {
-      total++;
-      const ok = expected.has(ch.dataset.id);
-      ch.style.borderColor = ok ? '#2ecc71' : '#e74c3c';
-      if(ok) correct++;
-    });
-  });
-
-  document.getElementById('status').textContent = `Score: ${correct} / ${total}`;
-}
-
-function buildAnswerKeyFromBank(bank){
-  const out = {
-    "Key People": { "儒家":[], "道家":[], "墨家":[], "法家":[] },
-    "Key Concepts": { "儒家":[], "道家":[], "墨家":[], "法家":[] },
-    "Aphorisms": { "儒家":[], "道家":[], "墨家":[], "法家":[] },
-    "Applications": { "儒家":[], "道家":[], "墨家":[], "法家":[] }
-  };
-  for(const [cat, arr] of Object.entries(bank)){
-    arr.forEach(item=>{
-      const sch = item.correctSchool || "";
-      if(out[cat] && out[cat][sch]) out[cat][sch].push(item.id);
-    });
-  }
-  return out;
-}
-
-function clearMatrix(){
-  document.querySelectorAll('.dropzone .chip').forEach(ch => ch.remove());
-  document.getElementById('status').textContent = '';
-}
-
-/* Init */
-let currentBank = ensureBank();
-
-document.addEventListener('DOMContentLoaded', ()=>{
-  renderBank();
-  wireDropzones();
-});
-</script>
 </body>
 </html>
