@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>四大哲学流派 Matrix</title>
+  <title>四大哲學流派 Matrix</title>
   <style>
     * {margin:0; padding:0; box-sizing:border-box;}
     body {
@@ -86,8 +86,8 @@
   </style>
 </head>
 <body>
-  <h1>四大哲学流派</h1>
-  <p class="subtitle">Ru Jia • Dao Jia • Mo Jia • Fa Jia</p>
+  <h1>四大哲學流派</h1>
+  <p class="subtitle">Ru Jia • Dao Jia • Mo Jia • Fa Jia<br>Primary associations, not exclusive ownership; aphorisms include paraphrases and story titles; applications are modern analogies.</p>
   <div class="container">
     <div class="matrix-section">
       <div class="table-wrapper">
@@ -144,39 +144,42 @@
       {id:"mengzi", text:"Mengzi (孟子)", pronounce:"孟子", correct:"ru", cat:"people"},
       {id:"xunzi", text:"Xunzi (荀子)", pronounce:"荀子", correct:"ru", cat:"people"},
       {id:"laozi", text:"Laozi (老子)", pronounce:"老子", correct:"dao", cat:"people"},
-      {id:"zhuangzi", text:"Zhuangzi (庄子)", pronounce:"庄子", correct:"dao", cat:"people"},
+      {id:"zhuangzi", text:"Zhuangzi (莊子)", pronounce:"莊子", correct:"dao", cat:"people"},
       {id:"mozi", text:"Mozi (墨子)", pronounce:"墨子", correct:"mo", cat:"people"},
-      {id:"hanfeizi", text:"Han Feizi (韩非子)", pronounce:"韩非子", correct:"fa", cat:"people"},
+      {id:"hanfeizi", text:"Han Feizi (韓非子)", pronounce:"韓非子", correct:"fa", cat:"people"},
       {id:"shangyang", text:"Shang Yang (商鞅)", pronounce:"商鞅", correct:"fa", cat:"people"},
-      {id:"people", text:"The People (民)", pronounce:"民", correct:"mo", cat:"people"},
+      {id:"people", text:"The People (民) - Constituency across all four houses", pronounce:"民", correct:"ru dao mo fa", cat:"people"},
       // Concepts Ru
       {id:"ren", text:"Ren 仁 - Benevolence", pronounce:"仁", correct:"ru", cat:"concepts"},
-      {id:"li", text:"Li 礼 - Ritual", pronounce:"礼", correct:"ru", cat:"concepts"},
-      {id:"yi", text:"Yi 义 - Righteousness", pronounce:"义", correct:"ru", cat:"concepts"},
+      {id:"li", text:"Li 禮 - Ritual", pronounce:"禮", correct:"ru", cat:"concepts"},
+      {id:"yi", text:"Yi 義 - Righteousness", pronounce:"義", correct:"ru", cat:"concepts"},
       {id:"xiao", text:"Xiao 孝 - Filial Piety", pronounce:"孝", correct:"ru", cat:"concepts"},
       {id:"junzi", text:"Junzi 君子 - Exemplary Person", pronounce:"君子", correct:"ru", cat:"concepts"},
+      {id:"mengzi-nature", text:"Mengzi: Human Nature Is Good; Cultivate the Four Sprouts", pronounce:"", correct:"ru", cat:"concepts"},
+      {id:"xunzi-nature", text:"Xunzi: Human Nature Is Bad; Goodness Requires Deliberate Effort", pronounce:"", correct:"ru", cat:"concepts"},
       // Concepts Dao
       {id:"dao", text:"Dao 道 - The Way", pronounce:"道", correct:"dao", cat:"concepts"},
-      {id:"wuwei", text:"Wu Wei 无为 - Non-action", pronounce:"无为", correct:"dao", cat:"concepts"},
+      {id:"wuwei", text:"Wu Wei 無為 - Nonaction (acting without forcing)", pronounce:"無為", correct:"dao", cat:"concepts"},
       {id:"ziran", text:"Ziran 自然 - Naturalness", pronounce:"自然", correct:"dao", cat:"concepts"},
-      {id:"yinyang", text:"Yin-Yang 阴阳 - Opposites", pronounce:"阴阳", correct:"dao", cat:"concepts"},
-      {id:"pu", text:"Pu 朴 - The Uncarved Block", pronounce:"朴", correct:"dao", cat:"concepts"},
+      {id:"yinyang", text:"Yin-Yang 陰陽 - Complementary opposites", pronounce:"陰陽", correct:"dao", cat:"concepts"},
+      {id:"pu", text:"Pu 樸 - The Uncarved Block", pronounce:"樸", correct:"dao", cat:"concepts"},
       // Concepts Mo
-      {id:"jianai", text:"Jian Ai 兼爱 - Universal Love", pronounce:"兼爱", correct:"mo", cat:"concepts"},
-      {id:"feigong", text:"Fei Gong 非攻 - Against War", pronounce:"非攻", correct:"mo", cat:"concepts"},
-      {id:"shangxian", text:"Shang Xian 尚贤 - Meritocracy", pronounce:"尚贤", correct:"mo", cat:"concepts"},
-      {id:"jieyong", text:"Jie Yong 节用 - Moderation", pronounce:"节用", correct:"mo", cat:"concepts"},
+      {id:"jianai", text:"Jian Ai 兼愛 - Inclusive / Impartial Care", pronounce:"兼愛", correct:"mo", cat:"concepts"},
+      {id:"feigong", text:"Fei Gong 非攻 - Against Aggressive War", pronounce:"非攻", correct:"mo", cat:"concepts"},
+      {id:"shangxian", text:"Shang Xian 尚賢 - Promoting the Worthy", pronounce:"尚賢", correct:"mo", cat:"concepts"},
+      {id:"jieyong", text:"Jie Yong 節用 - Moderation in Expenditures", pronounce:"節用", correct:"mo", cat:"concepts"},
       {id:"tianzhi", text:"Tianzhi 天志 - Will of Heaven", pronounce:"天志", correct:"mo", cat:"concepts"},
       // Concepts Fa
       {id:"fa", text:"Fa 法 - Law", pronounce:"法", correct:"fa", cat:"concepts"},
-      {id:"shu", text:"Shu 术 - Techniques", pronounce:"术", correct:"fa", cat:"concepts"},
-      {id:"shi", text:"Shi 势 - Authority", pronounce:"势", correct:"fa", cat:"concepts"},
+      {id:"shu", text:"Shu 術 - Techniques of Rule", pronounce:"術", correct:"fa", cat:"concepts"},
+      {id:"shi", text:"Shi 勢 - Positional Power", pronounce:"勢", correct:"fa", cat:"concepts"},
       {id:"centralization", text:"Centralization", pronounce:"", correct:"fa", cat:"concepts"},
       {id:"realism", text:"Realism", pronounce:"", correct:"fa", cat:"concepts"},
       // Aphorisms Ru
       {id:"ru1", text:"Do not impose on others what you do not desire.", pronounce:"", correct:"ru", cat:"aphorisms"},
       {id:"ru2", text:"The gentleman understands what is moral. The small man what is profitable.", pronounce:"", correct:"ru", cat:"aphorisms"},
       {id:"ru3", text:"Learning without thought is labor lost; thought without learning is perilous.", pronounce:"", correct:"ru", cat:"aphorisms"},
+      {id:"ru4", text:"Mengzi: The people come first, the state next, the ruler last. (7B14, paraphrase)", pronounce:"", correct:"ru", cat:"aphorisms"},
       // Aphorisms Dao
       {id:"dao1", text:"The Useless Tree", pronounce:"", correct:"dao", cat:"aphorisms"},
       {id:"dao2", text:"Butterfly Dream", pronounce:"", correct:"dao", cat:"aphorisms"},
@@ -271,7 +274,7 @@
         const school=item.dataset.correct;
         const cat=item.dataset.cat;
         const parent=item.closest('.dropzone');
-        if(parent.dataset.school===school && parent.dataset.cat===cat){
+        if(school.split(" ").includes(parent.dataset.school) && parent.dataset.cat===cat){
           item.classList.add('correct'); item.classList.remove('incorrect');
         } else {
           item.classList.add('incorrect'); item.classList.remove('correct');
