@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-30T01:26:57.341583+00:00",
+  "title": "Design System: Four houses",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Page navy",
+        "tonalRamp": [
+          "oklch(15.00% 0.0318 272.87)",
+          "oklch(26.43% 0.0318 272.87)",
+          "oklch(37.86% 0.0318 272.87)",
+          "oklch(49.29% 0.0318 272.87)",
+          "oklch(60.71% 0.0318 272.87)",
+          "oklch(72.14% 0.0318 272.87)",
+          "oklch(83.57% 0.0318 272.87)",
+          "oklch(95.00% 0.0318 272.87)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface navy",
+        "tonalRamp": [
+          "oklch(15.00% 0.0327 269.22)",
+          "oklch(26.43% 0.0327 269.22)",
+          "oklch(37.86% 0.0327 269.22)",
+          "oklch(49.29% 0.0327 269.22)",
+          "oklch(60.71% 0.0327 269.22)",
+          "oklch(72.14% 0.0327 269.22)",
+          "oklch(83.57% 0.0327 269.22)",
+          "oklch(95.00% 0.0327 269.22)"
+        ]
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "Raised navy",
+        "tonalRamp": [
+          "oklch(15.00% 0.0335 268.03)",
+          "oklch(26.43% 0.0335 268.03)",
+          "oklch(37.86% 0.0335 268.03)",
+          "oklch(49.29% 0.0335 268.03)",
+          "oklch(60.71% 0.0335 268.03)",
+          "oklch(72.14% 0.0335 268.03)",
+          "oklch(83.57% 0.0335 268.03)",
+          "oklch(95.00% 0.0335 268.03)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Light ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.0066 106.52)",
+          "oklch(26.43% 0.0066 106.52)",
+          "oklch(37.86% 0.0066 106.52)",
+          "oklch(49.29% 0.0066 106.52)",
+          "oklch(60.71% 0.0066 106.52)",
+          "oklch(72.14% 0.0066 106.52)",
+          "oklch(83.57% 0.0066 106.52)",
+          "oklch(95.00% 0.0066 106.52)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted text",
+        "tonalRamp": [
+          "oklch(15.00% 0.0173 259.42)",
+          "oklch(26.43% 0.0173 259.42)",
+          "oklch(37.86% 0.0173 259.42)",
+          "oklch(49.29% 0.0173 259.42)",
+          "oklch(60.71% 0.0173 259.42)",
+          "oklch(72.14% 0.0173 259.42)",
+          "oklch(83.57% 0.0173 259.42)",
+          "oklch(95.00% 0.0173 259.42)"
+        ]
+      },
+      "gold": {
+        "role": "primary",
+        "displayName": "Action gold",
+        "tonalRamp": [
+          "oklch(15.00% 0.1112 90.18)",
+          "oklch(26.43% 0.1112 90.18)",
+          "oklch(37.86% 0.1112 90.18)",
+          "oklch(49.29% 0.1112 90.18)",
+          "oklch(60.71% 0.1112 90.18)",
+          "oklch(72.14% 0.1112 90.18)",
+          "oklch(83.57% 0.1112 90.18)",
+          "oklch(95.00% 0.1112 90.18)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Border gray",
+        "tonalRamp": [
+          "oklch(15.00% 0.0364 265.01)",
+          "oklch(26.43% 0.0364 265.01)",
+          "oklch(37.86% 0.0364 265.01)",
+          "oklch(49.29% 0.0364 265.01)",
+          "oklch(60.71% 0.0364 265.01)",
+          "oklch(72.14% 0.0364 265.01)",
+          "oklch(83.57% 0.0364 265.01)",
+          "oklch(95.00% 0.0364 265.01)"
+        ]
+      },
+      "ok": {
+        "role": "semantic",
+        "displayName": "Correct green",
+        "tonalRamp": [
+          "oklch(15.00% 0.0697 150.60)",
+          "oklch(26.43% 0.0697 150.60)",
+          "oklch(37.86% 0.0697 150.60)",
+          "oklch(49.29% 0.0697 150.60)",
+          "oklch(60.71% 0.0697 150.60)",
+          "oklch(72.14% 0.0697 150.60)",
+          "oklch(83.57% 0.0697 150.60)",
+          "oklch(95.00% 0.0697 150.60)"
+        ]
+      },
+      "bad": {
+        "role": "semantic",
+        "displayName": "Incorrect red",
+        "tonalRamp": [
+          "oklch(15.00% 0.0726 27.03)",
+          "oklch(26.43% 0.0726 27.03)",
+          "oklch(37.86% 0.0726 27.03)",
+          "oklch(49.29% 0.0726 27.03)",
+          "oklch(60.71% 0.0726 27.03)",
+          "oklch(72.14% 0.0726 27.03)",
+          "oklch(83.57% 0.0726 27.03)",
+          "oklch(95.00% 0.0726 27.03)"
+        ]
+      },
+      "focus": {
+        "role": "semantic",
+        "displayName": "Focus gold",
+        "tonalRamp": [
+          "oklch(15.00% 0.1142 90.27)",
+          "oklch(26.43% 0.1142 90.27)",
+          "oklch(37.86% 0.1142 90.27)",
+          "oklch(49.29% 0.1142 90.27)",
+          "oklch(60.71% 0.1142 90.27)",
+          "oklch(72.14% 0.1142 90.27)",
+          "oklch(83.57% 0.1142 90.27)",
+          "oklch(95.00% 0.1142 90.27)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Page heading",
+        "purpose": "Responsive h1."
+      },
+      "headline": {
+        "displayName": "Section heading",
+        "purpose": "Category and editor sections."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Card and instructional text."
+      },
+      "label": {
+        "displayName": "Kind label",
+        "purpose": "Small card metadata."
+      }
+    },
+    "shadows": [
+      {
+        "name": "placement-bar",
+        "value": "0 -8px 24px #0003",
+        "purpose": "Separates sticky destinations from scrolling content."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background-color .12s ease-out, border-color .12s ease-out",
+        "purpose": "Enabled only under prefers-reduced-motion: no-preference."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "two-column",
+        "value": "900px"
+      },
+      {
+        "name": "mobile",
+        "value": "540px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main check or add action.",
+      "html": "<button class=\"ds-primary\">Check placements</button>",
+      "css": ".ds-primary{font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;min-height:44px;border:1px solid var(--line,#515b70);border-radius:var(--radius,8px);background:var(--surface,#222839);color:var(--ink,#f2f2ed);padding:9px 14px;cursor:pointer}.ds-primary:hover:not(:disabled){background:var(--raised,#2d3446);border-color:var(--gold,#f0d17b)}.ds-primary:disabled{opacity:.55;cursor:default}.ds-primary:focus-visible{outline:3px solid var(--focus,#ffdf86);outline-offset:4px}.ds-primary{background:var(--gold,#f0d17b);border-color:var(--gold,#f0d17b);color:var(--bg,#171b2b);font-weight:700}.ds-primary:hover:not(:disabled){background:#ffe7a4}@media(prefers-reduced-motion:no-preference){.ds-primary{transition:background-color .12s ease-out,border-color .12s ease-out}}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Supporting action.",
+      "html": "<button class=\"ds-secondary\">Reset category</button>",
+      "css": ".ds-secondary{font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;min-height:44px;border:1px solid var(--line,#515b70);border-radius:var(--radius,8px);background:var(--surface,#222839);color:var(--ink,#f2f2ed);padding:9px 14px;cursor:pointer}.ds-secondary:hover:not(:disabled){background:var(--raised,#2d3446);border-color:var(--gold,#f0d17b)}.ds-secondary:disabled{opacity:.55;cursor:default}.ds-secondary:focus-visible{outline:3px solid var(--focus,#ffdf86);outline-offset:4px}@media(prefers-reduced-motion:no-preference){.ds-secondary{transition:background-color .12s ease-out,border-color .12s ease-out}}"
+    },
+    {
+      "name": "Text field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Search and editor input.",
+      "html": "<label class=\"ds-label\">Find a card <input class=\"ds-input\" type=\"search\" placeholder=\"Search this category\"></label>",
+      "css": ".ds-label{font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;display:grid;gap:6px;color:var(--muted,#bcc3ce)}.ds-input{font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;min-height:44px;background:var(--bg,#171b2b);border:1px solid var(--line,#515b70);border-radius:5px;color:var(--ink,#f2f2ed);padding:9px;max-width:100%;caret-color:var(--gold,#f0d17b)}.ds-input:focus-visible{outline:3px solid var(--focus,#ffdf86);outline-offset:4px}"
+    },
+    {
+      "name": "Category navigation",
+      "kind": "nav",
+      "refersTo": "category-current",
+      "description": "Current category and neighboring options.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Practice categories\"><button class=\"ds-category\" aria-current=\"true\">Key People</button><button class=\"ds-category\">Key Concepts</button></nav>",
+      "css": ".ds-category{font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;min-height:44px;border:1px solid var(--line,#515b70);border-radius:var(--radius,8px);background:var(--surface,#222839);color:var(--ink,#f2f2ed);padding:9px 14px;cursor:pointer}.ds-category:hover:not(:disabled){background:var(--raised,#2d3446);border-color:var(--gold,#f0d17b)}.ds-category:disabled{opacity:.55;cursor:default}.ds-category:focus-visible{outline:3px solid var(--focus,#ffdf86);outline-offset:4px}@media(prefers-reduced-motion:no-preference){.ds-category{transition:background-color .12s ease-out,border-color .12s ease-out}}.ds-nav{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line,#515b70);padding-bottom:18px}.ds-category[aria-current=true]{color:var(--bg,#171b2b);background:var(--gold,#f0d17b);border-color:var(--gold,#f0d17b);font-weight:700}"
+    },
+    {
+      "name": "Selected practice card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Card selection before choosing a house.",
+      "html": "<div class=\"ds-card\"><button class=\"ds-choose\" aria-pressed=\"true\">Ru 儒家</button><span class=\"ds-kind\">House association</span></div>",
+      "css": ".ds-choose{font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;min-height:44px;border:1px solid var(--line,#515b70);border-radius:var(--radius,8px);background:var(--surface,#222839);color:var(--ink,#f2f2ed);padding:9px 14px;cursor:pointer}.ds-choose:hover:not(:disabled){background:var(--raised,#2d3446);border-color:var(--gold,#f0d17b)}.ds-choose:disabled{opacity:.55;cursor:default}.ds-choose:focus-visible{outline:3px solid var(--focus,#ffdf86);outline-offset:4px}@media(prefers-reduced-motion:no-preference){.ds-choose{transition:background-color .12s ease-out,border-color .12s ease-out}}.ds-card{font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;padding:10px 0;border-bottom:1px solid var(--line,#515b70);min-width:0;overflow-wrap:anywhere}.ds-choose{background:transparent;text-align:left;width:100%;padding:10px;border:1px solid transparent;font-weight:500;line-height:1.4;cursor:grab}.ds-choose[aria-pressed=true]{border-color:var(--gold,#f0d17b);background:var(--raised,#2d3446);color:var(--gold,#f0d17b)}.ds-kind{display:block;font-size:.8rem;color:var(--muted,#bcc3ce);padding:0 10px 5px}"
+    },
+    {
+      "name": "Feedback inset",
+      "kind": "custom",
+      "refersTo": "feedback",
+      "description": "Written result with a semantic color label.",
+      "html": "<div class=\"ds-feedback\"><strong>Correct</strong><p>Related course reading</p></div>",
+      "css": ".ds-feedback{font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;font-size:.92rem;color:var(--ink,#f2f2ed);padding:10px;background:var(--surface,#222839);margin:6px 0 0;border-radius:var(--radius,8px)}.ds-feedback strong{display:block;color:var(--ok,#b5e3be);margin-bottom:5px}.ds-feedback p{margin:0 0 8px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Compact course practice",
+    "overview": "A compact course practice interface for sorting cards among Ru, Dao, Mo, and Fa. Navy surfaces, gold actions, and sans-serif text keep card content and placement controls prominent. The custom-card editor uses the same controls and typography.",
+    "keyCharacteristics": [
+      "Compact, text-led practice layout.",
+      "Gold identifies actions, current category, and selected cards.",
+      "Visible keyboard focus and persistent placement controls."
+    ],
+    "rules": [],
+    "dos": [
+      "Do retain readable card text and explicit selected, current, and feedback states.",
+      "Do use the shared sans-serif stack and visible focus outline.",
+      "Do let long card text wrap and preserve the mobile full-width occupied houses."
+    ],
+    "donts": [
+      "Don't distinguish answer states by color alone; retain the feedback text.",
+      "Don't introduce decorative imagery or large banners into the compact practice layout."
+    ]
+  }
+}
