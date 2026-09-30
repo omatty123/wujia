@@ -1,45 +1,30 @@
-# Interactive Chinese Philosophical Schools Matrix
+# Four houses — HIST 212 practice
 
-## Description
-The Interactive Chinese Philosophical Schools Matrix is a web-based application that provides an engaging way to explore various schools of thought in Chinese philosophy. It allows users to interactively navigate through different philosophical concepts, figures, and their interrelations.
+[Open the quiz](https://omatty123.github.io/wujia/).
 
-## Usage
-To use the Interactive Chinese Philosophical Schools Matrix, simply access the webpage through your browser. You can explore various philosophical schools and click on specific concepts to gain deeper insights. The interface is designed to be user-friendly and intuitive.
+A static course exercise for Ru, Dao, Mo, and Fa. Work through Key People, Key Concepts, Aphorisms, and Applications. Select a card and a house with a mouse, touch, or keyboard; dragging is optional. Check placements for explanations and links to related course readers. Return cards to the bank or reset one category.
 
-## Setup Instructions
-To set up the project locally, follow these steps:
+## Answer policy
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/omatty123/wujia.git
-   cd wujia
-   ```
+57 cards: 41 scored association cards and 16 unscored discussion/connection cards. Shared vocabulary accepts the documented associations in `data.js`; modern applications are not unique right/wrong answers. Scores count checked correct cards out of all scored cards in the active category. Nothing is submitted or connected to course grades. See [AUDIT.md](AUDIT.md) for evidence, preservation decisions, and scope.
 
-2. **Install Dependencies**
-   If the project uses a package manager (like npm or yarn), run:
-   ```bash
-   npm install
-   ```
-   or
-   ```bash
-   yarn install
-   ```
+Progress and custom cards stay in local browser storage. They are not synchronized or published. The custom editor retains the existing `matrixCustomItemsV1` format; the quiz now reads it. Custom answer keys are explicitly unverified. Opening the editor on another device will not display these cards.
 
-3. **Run the Application**
-   Start the application with:
-   ```bash
-   npm start
-   ```
-   or
-   ```bash
-   yarn start
-   ```
+## Run and verify
 
-4. **Open in Browser**
-   Open your browser and navigate to `http://localhost:3000` (or the appropriate port) to view the application.
+No dependencies or build step. Serve the directory over HTTP (ES modules do not run by opening `index.html` as a local file):
 
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or feature requests.
+```sh
+python3 -m http.server 8000
+npm test
+```
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Open http://localhost:8000. Tests use Node's built-in test runner (Node 20+).
+
+- `data.js`: card content, accepted houses, explanations, related reader links.
+- `model.js`: pure grading, persistence validation, and custom-card import.
+- `quiz.js` / `index.html` / `style.css`: accessible, responsive practice interface.
+- `admin.js` / `admin.html`: browser-local custom-card editor.
+- `tests/quiz.test.js`: exhaustive answer-key and state regression checks.
+
+GitHub Pages publishes the root of `main`. Review changes in a PR, run tests and desktop/mobile browser checks, then merge. Do not add private student records or copyrighted source PDFs to this public repository.
