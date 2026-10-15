@@ -7,3 +7,7 @@
 .bank-list{min-height:80px} .feedback a{padding-block:5px} .custom-list span{overflow-wrap:anywhere;min-width:0}
 
 html{scroll-padding-bottom:240px}@media(max-width:540px){.house:has(.card){grid-column:1/-1}}
+
+/* Fall 2026 light theme */
+:root{color-scheme:light;--bg:#fffefb;--surface:#f0f3f5;--raised:#e5edf1;--ink:#202938;--muted:#566071;--gold:#245b73;--line:#b4bec6;--ok:#21613d;--bad:#a1322a;--focus:#245b73}
+button.primary:hover:not(:disabled){background:#19465b;color:#fffefb}

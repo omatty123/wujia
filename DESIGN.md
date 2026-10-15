@@ -130,3 +130,7 @@ Interactive elements receive a focus outline (3px) offset by 4px. Button backgro
 ## October 15, 2026: Five-house basics
 
 The new entry page retains the navy/gold sans-serif identity but removes the card-bank and destination-bar interaction from the first experience. Five divided rows use large house names, one core idea, and thinkers. Terms and sources expand on demand. A second mode displays one statement and five house buttons, then explanatory feedback. No decorative panels, imagery, banners, or forced heading breaks. Mobile uses narrow house labels alongside wrapping descriptions; practice controls wrap in two rows. The prior sorting interface remains at sorting.html.
+
+## October 15 revision: light surfaces and matrix
+
+User requested a light theme, automatic gameplay, and a five-house drag-and-drop matrix. Light ivory (#fffefb), dark ink (#202938), muted slate (#566071), and blue (#245b73) now replace the dark palette on the entry page and legacy sorting/editor. The matrix displays five house columns and a statement bank; at phone widths the columns wrap into two columns. Dragging and keyboard/tap selection share the same placement operation. Written correct/retry feedback accompanies border state. Matching advances after five seconds by default; a toggle pauses automatic progression, mode changes cancel timers, and manual Next remains available. Core ideas and all prior materials are preserved.

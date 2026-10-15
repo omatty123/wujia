@@ -42,3 +42,7 @@ Open http://localhost:8000. Tests use Node's built-in test runner (Node 20+).
 - `tests/quiz.test.js`: exhaustive answer-key and state regression checks.
 
 GitHub Pages publishes the root of `main`. Review changes in a PR, run tests and desktop/mobile browser checks, then merge. Do not add private student records or copyrighted source PDFs to this public repository.
+
+### Light theme, automatic matching, and five-house matrix
+
+The main page now includes Drag & drop matrix: 20 statements, five destinations, immediate feedback, movable placements, a count of correct placements, and reset. Tap or keyboard selection followed by a destination works without dragging. Practice matching advances automatically after five seconds of feedback; turn Auto-advance off to read at your own pace. Switching modes cancels pending advancement. The matrix state lasts for the current page session. All surfaces use the requested light theme.
