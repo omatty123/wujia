@@ -54,3 +54,7 @@ Current practice has People (11 individual thinkers), Concepts (10 paraphrased i
 Right Arrow advances immediately after an answer in matching mode, including when auto-advance is off. It cannot skip unanswered cards, repeats, or mastery requirements; it cancels the pending timer before advancing.
 
 The student entry page is now titled Debate Training and has no outbound links or legacy-activity links. Plain-text citations remain with the learning material and quote feedback. The original sorting files remain preserved, but are not linked from training.
+
+### Fixed matrix boxes
+
+The matrix now uses an HTML table with row numbers, five fixed house columns, and one pre-existing drop box for each expected card. Unneeded cells are shaded. A card occupies one specific box; occupied cells cannot be overwritten. Cards can move between empty boxes or return to the bank; neither action erases recorded mistakes. Reset clears all boxes. Small screens scroll the grid horizontally instead of rearranging the columns. Actual browser dragging into a table cell, moving between rows, and returning a card were verified.

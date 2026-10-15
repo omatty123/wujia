@@ -138,3 +138,7 @@ User requested a light theme, automatic gameplay, and a five-house drag-and-drop
 ## Sequential mastery stages
 
 People → Concepts → Quotes appears as a compact second navigation row in both practice modes. Future stages are disabled until a complete zero-mistake round passes. A visible mistake count persists after corrections; Reset this stage clears the attempt. Matching remains automatic with optional manual pacing. Only the active category's cards appear in the matrix. Quotes have exact excerpts and attribution in feedback; people cards use individual names. Light palette and sans-serif typography remain unchanged.
+
+## Fixed table matrix
+
+Replace the flowing house lists with a fixed HTML table: row headers, five column headers, explicit empty drop buttons, shaded unused cells. People boxes are 58px high, concept boxes 150px, quote boxes 240px; long card text scrolls within its box. Mobile preserves the five-column relationship with horizontal table scrolling. No card is overwritten by dropping another onto it. Plain labels and keyboard/tap activation complement drag-and-drop.
