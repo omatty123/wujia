@@ -1,4 +1,4 @@
-import {houses,items,correct,stages} from './basics-data.js?v=stages';
+import {houses,items,correct,stages} from './basics-data.js?v=legalism';
 import {attempt,record,passed,shuffled} from './stage-model.js';
 const $=id=>document.getElementById(id);
 for(const [id,name,han,label,idea,people,terms,nuance,source] of houses){
@@ -23,7 +23,7 @@ function render(){stopTimer();answered=false;$('feedback').replaceChildren();$('
  if(position===queue.length){const ok=unlock(matching);$('prompt').textContent=ok?`${stages[stage]} passed — no mistakes.`:`Reset ${stages[stage].toLowerCase()} and try for a perfect round.`;
  $('feedback').textContent=ok?(stage===2?'All three stages passed.':'The next stage is unlocked.'):'Correct every card on the first attempt in one round to pass.';completion($('choices'),ok);return;}
  const item=queue[position];$('prompt').textContent=item.text;
- for(const [id,name,han] of houses){const b=$button(`${name} ${han}`,()=>{if(answered)return;answered=true;matching=record(matching,item,id);const ok=correct(item,id);for(const btn of $('choices').children)btn.disabled=true;b.dataset.result=ok?'correct':'incorrect';
+ for(const [id,name,han] of houses){const b=$button(`${name} ${han}${id==='fa'?' · Legalism':''}`,()=>{if(answered)return;answered=true;matching=record(matching,item,id);const ok=correct(item,id);for(const btn of $('choices').children)btn.disabled=true;b.dataset.result=ok?'correct':'incorrect';
  const label=houses.find(h=>h[0]===item.house)[1];$('feedback').textContent=`${ok?'Correct — '+label+'.':'This fits '+label+'.'} ${item.explanation}${item.source?' Source: '+item.source:''}`;
  $('count').textContent=`${stages[stage]} · ${position+1} / ${queue.length} · ${matching.mistakes} mistakes`;
  $('next').hidden=false;$('next').textContent=position+1===queue.length?'Finish round':'Next card';schedule();});$('choices').append(b);}
@@ -50,7 +50,7 @@ function drawMatrix(){const board=$('matrix-board'),bank=$('matrix-bank');board.
  const caption=document.createElement('caption');caption.textContent=`${stages[stage]} — one card per box`;table.append(caption);
  const head=document.createElement('thead'),hr=document.createElement('tr');
  const corner=document.createElement('th');corner.scope='col';corner.textContent='Row';hr.append(corner);
- for(const [,name,han] of houses){const th=document.createElement('th');th.scope='col';th.textContent=`${name} ${han}`;hr.append(th);}head.append(hr);table.append(head);
+ for(const [,name,han] of houses){const th=document.createElement('th');th.scope='col';th.textContent=`${name} ${han}${name==='Fa'?' · Legalism':''}`;hr.append(th);}head.append(hr);table.append(head);
  const body=document.createElement('tbody');
  for(let row=0;row<Math.max(...Object.values(counts));row++){
  const tr=document.createElement('tr'),label=document.createElement('th');label.scope='row';label.textContent=String(row+1);tr.append(label);
