@@ -46,3 +46,7 @@ GitHub Pages publishes the root of `main`. Review changes in a PR, run tests and
 ### Light theme, automatic matching, and five-house matrix
 
 The main page now includes Drag & drop matrix: 20 statements, five destinations, immediate feedback, movable placements, a count of correct placements, and reset. Tap or keyboard selection followed by a destination works without dragging. Practice matching advances automatically after five seconds of feedback; turn Auto-advance off to read at your own pace. Switching modes cancels pending advancement. The matrix state lasts for the current page session. All surfaces use the requested light theme.
+
+### Sequential mastery stages
+
+Current practice has People (11 individual thinkers), Concepts (10 paraphrased ideas), and Quotes (5 exact excerpts). Both matching and the matrix start with People. A complete round with zero mistakes unlocks the next stage; correcting a wrong placement does not erase its mistake. Reset clears the active mode's current attempt. Passing in either mode unlocks the next stage for both, within this page session. Earlier stages remain available. Quote citations appear after placement/answer; exact wording was checked against the assigned readers. The original mixed 20 statements remain in `originalItems` as source material, and the original four-house activity remains at sorting.html.

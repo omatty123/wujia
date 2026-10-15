@@ -134,3 +134,7 @@ The new entry page retains the navy/gold sans-serif identity but removes the car
 ## October 15 revision: light surfaces and matrix
 
 User requested a light theme, automatic gameplay, and a five-house drag-and-drop matrix. Light ivory (#fffefb), dark ink (#202938), muted slate (#566071), and blue (#245b73) now replace the dark palette on the entry page and legacy sorting/editor. The matrix displays five house columns and a statement bank; at phone widths the columns wrap into two columns. Dragging and keyboard/tap selection share the same placement operation. Written correct/retry feedback accompanies border state. Matching advances after five seconds by default; a toggle pauses automatic progression, mode changes cancel timers, and manual Next remains available. Core ideas and all prior materials are preserved.
+
+## Sequential mastery stages
+
+People → Concepts → Quotes appears as a compact second navigation row in both practice modes. Future stages are disabled until a complete zero-mistake round passes. A visible mistake count persists after corrections; Reset this stage clears the attempt. Matching remains automatic with optional manual pacing. Only the active category's cards appear in the matrix. Quotes have exact excerpts and attribution in feedback; people cards use individual names. Light palette and sans-serif typography remain unchanged.
