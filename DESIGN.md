@@ -125,3 +125,8 @@ Interactive elements receive a focus outline (3px) offset by 4px. Button backgro
 - Do let long card text wrap and preserve the mobile full-width occupied houses.
 - Don't distinguish answer states by color alone; retain the feedback text.
 - Don't introduce decorative imagery or large banners into the compact practice layout.
+
+
+## October 15, 2026: Five-house basics
+
+The new entry page retains the navy/gold sans-serif identity but removes the card-bank and destination-bar interaction from the first experience. Five divided rows use large house names, one core idea, and thinkers. Terms and sources expand on demand. A second mode displays one statement and five house buttons, then explanatory feedback. No decorative panels, imagery, banners, or forced heading breaks. Mobile uses narrow house labels alongside wrapping descriptions; practice controls wrap in two rows. The prior sorting interface remains at sorting.html.

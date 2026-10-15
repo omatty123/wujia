@@ -1,3 +1,17 @@
+# Five houses — HIST 212 · Fall 2026
+
+LIVE: https://omatty123.github.io/wujia/
+
+The starting page presents Ru, Dao, Mo, Fa, and Fo in five compact comparison rows. Optional details hold key terms, nuances, and course-reader links. Practice presents 20 paraphrased associations, four per house, one at a time. Feedback is immediate; a review round repeats missed statements. Basic practice is session-only, ungraded, and sends no data.
+
+The original 57-card four-house exercise, custom cards, and browser-local progress remain available at `sorting.html`. No original card has been deleted. The simpler entry point replaces the former landing page; Git history and `sorting.html` preserve it.
+
+New files: `basics-data.js`, `basics.js`, `basics.css`. Sources: existing audited Ru/Dao/Mo/Fa content; assigned October 13 readers, SCT 416–419 (editorial Buddhist basics), Mouzi and Huiyuan 421–428, and SKT Wŏn’gwang 44–46. All new practice statements are paraphrases, not quotations. Fo is explicitly distinguished from the earlier Warring States schools.
+
+Run `npm test` and serve with `python3 -m http.server 8776`. GitHub Pages publishes the root of main. CI runs tests before changes are merged.
+
+## Original sorting exercise documentation
+
 # Four houses — HIST 212 practice
 
 [Open the quiz](https://omatty123.github.io/wujia/).
