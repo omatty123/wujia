@@ -1,10 +1,9 @@
 import {houses,items,correct,stages} from './basics-data.js?v=stages';
 import {attempt,record,passed,shuffled} from './stage-model.js';
 const $=id=>document.getElementById(id);
-const reader={ru:'1emibfvbdqQzbkvP06jRgV9CKmIKAZbu8',dao:'1K_jfC8zaTjdB1VYEi4FXZO3yqAtY2Tj3',mo:'1ZR_jv9bJUShgKZgy-WdSpjamrXIhXnkO',fa:'1Y426EWeCiphSUSY-Phh9vrf3uR8wvu1L',fo:'1DgdxWmNkDr22Sze26MjL-juHOmhtmLPF'};
 for(const [id,name,han,label,idea,people,terms,nuance,source] of houses){
  const row=document.createElement('article');
- row.innerHTML=`<h3>${name} <span lang="zh">${han}</span><small>${label}</small></h3><div><p class="idea">${idea}</p><p class="people">${people}</p><details><summary>Key terms &amp; source</summary><p>${terms}</p><p>${nuance}</p><p class="muted">${source} · <a href="https://drive.google.com/file/d/${reader[id]}/view">Course reading</a></p></details></div>`;
+ row.innerHTML=`<h3>${name} <span lang="zh">${han}</span><small>${label}</small></h3><div><p class="idea">${idea}</p><p class="people">${people}</p><details><summary>Key terms &amp; source</summary><p>${terms}</p><p>${nuance}</p><p class="muted">${source}</p></details></div>`;
  $('houses').append(row);
 }
 let stage=0,unlocked=0,queue=[],position=0,answered=false,auto=true,timer=null,active='learn';
