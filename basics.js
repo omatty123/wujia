@@ -47,3 +47,10 @@ function drawMatrix(){const board=$('matrix-board'),bank=$('matrix-bank');board.
  else if(Object.keys(matrix.answers).length===list.length){$('matrix-completion').textContent='Reset this stage and complete it without mistakes to pass.';}}
 $('matrix-reset').onclick=()=>{matrix=attempt();selected=null;drawMatrix();$('matrix-feedback').textContent='Stage reset. Choose a card to begin.';};
 chooseStage(0);
+
+// Skip the feedback delay with Right Arrow, without skipping unanswered cards.
+document.addEventListener('keydown',event=>{
+ if(event.key!=='ArrowRight'||event.repeat||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey)return;
+ if(event.target.closest('input,textarea,select,[contenteditable="true"]'))return;
+ if(active==='practice'&&answered&&position<queue.length){event.preventDefault();advance();}
+});
